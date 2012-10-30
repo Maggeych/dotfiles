@@ -13,4 +13,3 @@ alias c='clear'
 PS1='\[\033[1;34m\][\T] \[\033[00;31m\]\W\[\033[0;31m\] :\[\033[0m\] '
 export TERM='xterm-256color'
 export EDITOR='vim'
-# only locally needed
