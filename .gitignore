@@ -1,5 +1,6 @@
 *
 !.*
+!xmonad.hs
 .ICEauthority
 .Xauthority
 .bash_history
