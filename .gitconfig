@@ -1,3 +1,5 @@
 [user]
 	name = Markus Frey
 	email = maggifrey@gmx.de
+[push]
+	default = simple
