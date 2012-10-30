@@ -1,0 +1,10 @@
+defaults.pcm.card 2
+defaults.pcm.device 0
+
+pcm.dmixout {
+  # Just pass this on to the system dmix
+  type plug
+  slave {
+     pcm "dmix"
+  }
+}

@@ -1,0 +1,36 @@
+! Xresources file
+
+URxvt*.transparent: true
+! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
+URxvt*.shading: 100 
+URxvt.scrollBar: false 
+URxvt.font: xft:monoscape:size=8:antialias=false
+!
+! terminal colors ------------------------------------------------------------
+! tangoesque scheme
+xterm*background: #000000
+xterm*foreground: #DAEDCA 
+! Black (not tango) + DarkGrey
+xterm*color0:  #000000
+xterm*color8:  #555555
+! DarkRed + Red
+xterm*color1:  #DD2D61
+xterm*color9:  #FB7BA0 
+! DarkGreen + Green
+xterm*color2:  #00AA00 
+xterm*color10: #55FF55 
+! DarkYellow + Yellow
+xterm*color3:  #D6A71B 
+xterm*color11: #FCD86D 
+! DarkBlue + Blue
+xterm*color4:  #2A7D7C
+xterm*color12: #01CDCC 
+! DarkMangenta + Mangenta
+xterm*color5:  #AA00AA 
+xterm*color13: #FF55FF 
+!DarkCyan + Cyan (both not tango)
+xterm*color6:  #00AAAA 
+xterm*color14: #55FFFF 
+! LightGrey + White
+xterm*color7:  #AAAAAA
+xterm*color15: #ffffff
