@@ -54,7 +54,7 @@ myConfig = defaultConfig { workspaces = workspaces'
                          , terminal = terminal'
                          , keys = keys'
                          , layoutHook = layoutHook'
-                         , startupHook= setWMName "LG3D"  -- minecraft wont resize according to the window without this
+                         -- , startupHook= setWMName "LG3D"  -- minecraft wont resize according to the window without this
                          , manageHook = manageHook'
                          }
 

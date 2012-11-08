@@ -109,6 +109,7 @@ nnoremap <silent> <leader>, :nohlsearch<CR>
 " ------------------------------------------------------------------------------
 if has('autocmd')
   autocmd filetype c,cpp call DoCCommands()
+  autocmd! BufNewFile,BufRead *.pde setlocal fr=arduino
 endif
 
 " ==============================================================================
