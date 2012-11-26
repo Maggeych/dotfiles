@@ -14,7 +14,7 @@ set copyindent                             " copy the previous indentation on au
 set shiftwidth=2                           " number of spaces to use for autoindenting
 set shiftround                             " use multiple of shiftwidth when indenting with '<' and '>'
 set backspace=indent,eol,start             " allow backspacing over everything in insert mode
-set number                                 " always show line numbers
+set relativenumber                         " always show line numbers
 set showmatch                              " set show matching parenthesis
 set ignorecase                             " ignore case when searching
 set smartcase                              " ignore case if search pattern is all lowercase, case-sensitive otherwise
@@ -25,7 +25,7 @@ set nobackup                               " dont create any backup files
 set noswapfile                             " dont create a swap file
 set history=1000                           " remember more commands and search history
 set undolevels=1000                        " use many muchos levels of undo
-set wildignore=*.swp,*.bak,*.pyc,*.class   " ignore these when autocompleting files
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o,*.obj,build-nano*,tags   " ignore these when autocompleting files
 set wildmenu
 set wildmode=list:longest,full
 set title                                  " change the terminal's title
@@ -36,6 +36,8 @@ set listchars=tab:>-,eol:¬
 set scrolljump=5                           " lines to jump when cursor leaves page
 set scrolloff=3                            " always keep this many lines under cursor
 set virtualedit=all                        " allow cursor to move beyond last char in a line
+set ssop-=options                          " dont save global or local values in a session
+set ssop-=folds                            " dont save folds in a session
 filetype plugin indent on                  " detect filetype and load plugins and indents
 syntax on                                  " syntax highlighting on
 
@@ -78,6 +80,39 @@ au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
 set completeopt=menuone,menu,longest,preview
 
 " ==============================================================================
+" -- Sessions
+" ==============================================================================
+function! MakeSession()
+  let b:sessiondir = getcwd()
+  let b:filename = b:sessiondir . '/session.vim'
+  exe "mksession! " . escape(b:filename, ' ')
+  echo "Session created!"
+endfunction
+
+function! UpdateSession()
+  let b:sessiondir = getcwd()
+  let b:filename = b:sessiondir . '/session.vim'
+  if (filereadable(b:filename))
+    echo "Update session file? (y/n)"
+    if nr2char(getchar()) == "y"
+      exe "mksession! " . escape(b:filename, ' ')
+      echo "Session updated!"
+    endif
+  endif
+endfunction
+
+function! LoadSession()
+  if argc() == 0
+    let b:sessiondir = getcwd()
+    let b:sessionfile = b:sessiondir . "/session.vim"
+    if (filereadable(b:sessionfile))
+      exe 'source ' . escape(b:sessionfile, ' ')
+      echo "Session loaded!"
+    endif
+  endif
+endfunction
+
+" ==============================================================================
 " -- hotkeys
 " ==============================================================================
 " make unneccesary spaces and tabs visible
@@ -100,17 +135,22 @@ nnoremap <F7> :tabprevious<CR>
 nnoremap <F8> :tabnext<CR>
 inoremap <F7> <Esc>:tabprevious<CR>
 inoremap <F8> <Esc>:tabnext<CR>
+nnoremap <silent> <C-F7> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
+nnoremap <silent> <C-F8> :execute 'silent! tabmove ' . tabpagenr()<CR>
 " clear highlighted word
 nnoremap <silent> <leader>, :nohlsearch<CR>
+nnoremap <F12> <Esc>:call MakeSession()<CR>
 
 
 
 
 " ------------------------------------------------------------------------------
 if has('autocmd')
-  autocmd filetype c,cpp call DoCCommands()
+  autocmd VimEnter * nested :call LoadSession()
+  autocmd VimLeave * nested :call UpdateSession()
   autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
   autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
+  autocmd filetype c,cpp,arduino call DoCCommands()
 endif
 
 " ==============================================================================

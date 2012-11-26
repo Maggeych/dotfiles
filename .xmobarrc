@@ -1,20 +1,19 @@
-Config { font = "Consolas:size=6:antialias=true"
-       , bgColor = "#0D1012"
-       , fgColor = "#666666"
-       , border = BottomB
-       , borderColor = "#B3B3B3"
-       , position = TopSize C 100 20 
-       , lowerOnStart = True
-       , commands = [ Run Network "wlan0" ["-L", "8", "-H", "32", "-l", "#666666", "-n", "#9C7854" 
-,"-h", "#A35861", "-t", "<dev>: <rx> : <tx>"] 10
-                    , Run Cpu ["-L","3","-H","50","--normal","#666666","--high","#A35861"] 10
-                    , Run Memory ["-t","Mem: <usedratio>%"] 10
-    		    , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
-                    --, Run CoreTemp ["-t", "Temp: <core0>C : <core1>C : <core2>C : <core3>C"] 10
-                    , Run Battery ["-t","<left>%","-L","40","-H","79","-h","#558F51","-n","#9C7854","-l","#A35861"] 10
-		    , Run StdinReader
-                    ]
-       , sepChar = "%"
-       , alignSep = "}{"
-       , template = " %StdinReader% }{ %cpu% <fc=#666666>|</fc> %memory% <fc=#666666>|</fc> %wlan0% <fc=#666666>|</fc> %battery% <fc=#666666>|</fc>  %date% "
-       }
+Config { font = "xft:ProggyTinyTTSZ-12:regular"
+  , bgColor = "#3A3A3A"
+  , fgColor = "#777777"
+  , border = BottomB
+  , borderColor = "#000000"
+  , position = TopSize C 100 20 
+  , lowerOnStart = True
+  , commands = [ 
+      Run Network "wlan0" ["-L", "8", "-H", "32", "-l", "#666666", "-n", "#9C7854", "-h", "#A35861", "-t", "<rx> : <tx>"] 10
+      , Run MultiCpu ["-t", "<autototal>", "-L","3","-H","50","--normal","#666666","--high","#A35861"] 10
+      , Run Memory ["-t","<used>M"] 10
+      , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+      , Run StdinReader
+      , Run DiskU [("sda3", "<free>"), ("/", "<free>")] [] 10
+    ]
+  , sepChar = "%"
+  , alignSep = "}{"
+  , template = " %StdinReader% }{ %multicpu% <fc=#999999>|</fc> %wlan0% <fc=#999999>|</fc> %memory% <fc=#999999>|</fc> %disku% <fc=#999999>|</fc> <fc=#AAAAAA>%date%</fc> "
+}

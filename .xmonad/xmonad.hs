@@ -32,6 +32,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.Spacing
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.LayoutCombinators
+import XMonad.Layout.Spiral
 
 -------------------------------------------------------------------------------
 -- Main --
@@ -77,13 +78,13 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 -------------------------------------------------------------------------------
 -- Looks --
 -- bar
-customPP = defaultPP { ppCurrent = xmobarColor "#dd2d61" "" . wrap "<" ">"
-                     , ppVisible = xmobarColor "#dd2d61" ""
-                     , ppHidden = xmobarColor "#b3b3b3" ""
-                     , ppHiddenNoWindows = xmobarColor "#666666" ""
-                     , ppUrgent = xmobarColor "#FF0000" "" . wrap "[" "]" 
-                     , ppLayout = xmobarColor "#Add2d6" ""
-                     , ppTitle =  xmobarColor "#01cdcc" "" . shorten 80
+customPP = defaultPP { ppCurrent = xmobarColor "#d29d3f" "" . wrap "<" ">"
+                     , ppVisible = xmobarColor "#d29d3f" ""
+                     , ppHidden = xmobarColor "#AEADA8" ""
+                     , ppHiddenNoWindows = xmobarColor "#686964" ""
+                     , ppUrgent = xmobarColor "#Add2d6" "" . wrap "[" "]" 
+                     , ppLayout = xmobarColor "#d29d3f" ""
+                     , ppTitle =  xmobarColor "#d3b683" "" . shorten 80
                      , ppSep = xmobarColor "#666666" "" " | "
                      }
 -- GridSelect
@@ -93,9 +94,9 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
 -- borders
-borderWidth' = 3 
-normalBorderColor'  = "#B3B3B3"
-focusedBorderColor' = "#dd2d61"
+borderWidth' = 1
+normalBorderColor'  = "#666666"
+focusedBorderColor' = "#d29d3f"
 
 -- tabs
 tabTheme1 = defaultTheme { decoHeight = 12
@@ -115,20 +116,20 @@ layoutHook' = -- onWorkspace "web" full $
    -- onWorkspace "mail" full $
    -- onWorkspace "music" full $
    -- onWorkspace "file" full $
-   tiled ||| tile3 ||| full
+   tiled ||| wide
   where
     rt = ResizableTall 1 (2/100) (1/2) []
     tile = spacing 10 $ named "|t|" $ smartBorders rt
     mtile = spacing 10 $ named "-t-" $ smartBorders $ Mirror rt
     tab = named "(t)" $ noBorders $ tabbed shrinkText tabTheme1
     full = named "[]" $ smartBorders Full
-    tiled  = named "t2" $ smartBorders $ spacing 10 $ ResizableTall nmaster delta (3/5) [] 
-    tile3  = named "t3" $ smartBorders $ spacing 5 $ ThreeColMid nmaster delta (1/3)
+    tiled  = named "tall" $ smartBorders $ ResizableTall nmaster delta (1/2) [] 
+    tile3  = named "t3" $ smartBorders $ ThreeColMid nmaster delta (1/3)
+    wide = named "wide" $ smartBorders $ Mirror $ ResizableTall nmaster delta (1/2) [] 
     -- Default number of windows in master pane
     nmaster = 1
     -- Percent of the screen to increment when resizing
-    delta = 5/100
-    -- Default proportion of the screen taken up by main pane
+    delta = 2/100 -- Default proportion of the screen taken up by main pane
     ratio = toRational (2/(1 + sqrt 5 :: Double))
 
 -------------------------------------------------------------------------------
