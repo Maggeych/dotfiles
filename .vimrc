@@ -16,7 +16,10 @@ set shiftround                             " use multiple of shiftwidth when ind
 set backspace=indent,eol,start             " allow backspacing over everything in insert mode
 set relativenumber                         " always show line numbers
 set showmatch                              " set show matching parenthesis
+set showmode                               " always show the mode
+set ls=2                                   " always show name of file
 set ignorecase                             " ignore case when searching
+set nostartofline                          " keep horizontal cursor pos when scrollen vertically
 set smartcase                              " ignore case if search pattern is all lowercase, case-sensitive otherwise
 set smarttab                               " insert tabs on the start of a line according to shiftwidth, not tabstop
 set hlsearch                               " highlight search terms
@@ -140,6 +143,27 @@ nnoremap <silent> <C-F8> :execute 'silent! tabmove ' . tabpagenr()<CR>
 " clear highlighted word
 nnoremap <silent> <leader>, :nohlsearch<CR>
 nnoremap <F12> <Esc>:call MakeSession()<CR>
+
+"" Toggle between .h and .cpp with F4.
+function! ToggleBetweenHeaderAndSourceFile()
+  let bufname = bufname("%")
+  let ext = fnamemodify(bufname, ":e")
+  if ext == "h"
+    let ext = "cpp"
+  elseif ext == "cpp"
+    let ext = "h"
+  else
+    return
+  endif
+  let bufname_new = fnamemodify(bufname, ":r") . "." . ext
+  let bufname_alt = bufname("#")
+  if bufname_new == bufname_alt
+    execute ":e#"
+  else
+    execute ":e " . bufname_new
+  endif
+endfunction
+map <silent> <F4> :call ToggleBetweenHeaderAndSourceFile()<CR>
 
 
 
