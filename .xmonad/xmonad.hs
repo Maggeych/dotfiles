@@ -78,13 +78,13 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 -------------------------------------------------------------------------------
 -- Looks --
 -- bar
-customPP = defaultPP { ppCurrent = xmobarColor "#d29d3f" "" . wrap "<" ">"
-                     , ppVisible = xmobarColor "#d29d3f" ""
-                     , ppHidden = xmobarColor "#AEADA8" ""
+customPP = defaultPP { ppCurrent = xmobarColor "#25DB4F" "" . wrap "<" ">"
+                     , ppVisible = xmobarColor "#4CAD64" ""
+                     , ppHidden = xmobarColor "#888888" ""
                      , ppHiddenNoWindows = xmobarColor "#686964" ""
-                     , ppUrgent = xmobarColor "#Add2d6" "" . wrap "[" "]" 
-                     , ppLayout = xmobarColor "#d29d3f" ""
-                     , ppTitle =  xmobarColor "#d3b683" "" . shorten 80
+                     , ppUrgent = xmobarColor "#25DB4F" "" . wrap "[" "]" 
+                     , ppLayout = xmobarColor "#4CAD64" ""
+                     , ppTitle =  xmobarColor "#999999" "" . shorten 80
                      , ppSep = xmobarColor "#666666" "" " | "
                      }
 -- GridSelect
@@ -96,7 +96,7 @@ urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 -- borders
 borderWidth' = 1
 normalBorderColor'  = "#666666"
-focusedBorderColor' = "#d29d3f"
+focusedBorderColor' = "#4CAD64"
 
 -- tabs
 tabTheme1 = defaultTheme { decoHeight = 12
@@ -134,7 +134,7 @@ layoutHook' = -- onWorkspace "web" full $
 
 -------------------------------------------------------------------------------
 -- Terminal --
-terminal' = "terminal"
+terminal' = "urxvt"
 
 -------------------------------------------------------------------------------
 -- Keys/Button bindings --

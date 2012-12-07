@@ -1,36 +1,57 @@
 ! Xresources file
 
-URxvt*.transparent: true
-! URxvt*.shading: 0 to 99 darkens, 101 to 200 lightens
-URxvt*.shading: 100 
+URxvt*background:       #1c1c1c
+URxvt*foreground:       #808080
+URxvt*termName:         rxvt-256color
 URxvt.scrollBar: false 
-URxvt.font: xft:monoscape:size=8:antialias=false
-!
-! terminal colors ------------------------------------------------------------
-! tangoesque scheme
-xterm*background: #000000
-xterm*foreground: #DAEDCA 
-! Black (not tango) + DarkGrey
-xterm*color0:  #000000
-xterm*color8:  #555555
-! DarkRed + Red
-xterm*color1:  #DD2D61
-xterm*color9:  #FB7BA0 
-! DarkGreen + Green
-xterm*color2:  #00AA00 
-xterm*color10: #55FF55 
-! DarkYellow + Yellow
-xterm*color3:  #D6A71B 
-xterm*color11: #FCD86D 
-! DarkBlue + Blue
-xterm*color4:  #2A7D7C
-xterm*color12: #01CDCC 
-! DarkMangenta + Mangenta
-xterm*color5:  #AA00AA 
-xterm*color13: #FF55FF 
-!DarkCyan + Cyan (both not tango)
-xterm*color6:  #00AAAA 
-xterm*color14: #55FFFF 
-! LightGrey + White
-xterm*color7:  #AAAAAA
-xterm*color15: #ffffff
+!URxvt.font: xft:ProggyTinyTTSZ-12:antialias=false
+!URxvt.boldFont: xft:ProggyTinyTTSZ-12:antialias=false
+URxvt.font: xft:Monospace-8
+! ! Black
+! URxvt*color0:  #000000
+! URxvt*color8:  #555555
+! ! Red
+! URxvt*color1:  #C34F51
+! URxvt*color9:  #DD8485
+! ! Green
+! URxvt*color2:  #5AAC5F
+! URxvt*color10: #8ACE8E
+! ! Yellow
+! URxvt*color3:  #BFA16B
+! URxvt*color11: #D9B679
+! ! Blue
+! URxvt*color4:  #70A5DE
+! URxvt*color12: #A3C1E0
+! ! Pink
+! URxvt*color5:  #CC66A5
+! URxvt*color13: #FF80CE
+! ! Turkois
+! URxvt*color6:  #749E97
+! URxvt*color14: #93C7BF
+! ! Gray
+! URxvt*color7:  #AAAAAA
+! URxvt*color15: #ffffff
+
+URxvt.color0:	#000000
+URxvt.color8:	#555555
+
+URxvt.color1:	#c2465f
+URxvt.color9:	#ed3764
+
+URxvt.color2:	#4cad64
+URxvt.color10:	#25db4f
+
+URxvt.color3:	#b8904c
+URxvt.color11:	#db9f40
+
+URxvt.color4:	#5085a8
+URxvt.color12:	#41a0db
+
+URxvt.color5:	#c24697
+URxvt.color13:	#ff52c5
+
+URxvt.color6: #4ea7ad
+URxvt.color14:  #2ac9d1
+
+URxvt.color7:	#AAAAAA
+URxvt.color15:	#CCCCCC
