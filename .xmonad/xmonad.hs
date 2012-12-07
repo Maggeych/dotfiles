@@ -78,12 +78,12 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 -------------------------------------------------------------------------------
 -- Looks --
 -- bar
-customPP = defaultPP { ppCurrent = xmobarColor "#25DB4F" "" . wrap "<" ">"
-                     , ppVisible = xmobarColor "#4CAD64" ""
+customPP = defaultPP { ppCurrent = xmobarColor "#DB9F40" "" . wrap "(" ")"
+                     , ppVisible = xmobarColor "#B8904C" ""
                      , ppHidden = xmobarColor "#888888" ""
                      , ppHiddenNoWindows = xmobarColor "#686964" ""
                      , ppUrgent = xmobarColor "#25DB4F" "" . wrap "[" "]" 
-                     , ppLayout = xmobarColor "#4CAD64" ""
+                     , ppLayout = xmobarColor "#B8904C" ""
                      , ppTitle =  xmobarColor "#999999" "" . shorten 80
                      , ppSep = xmobarColor "#666666" "" " | "
                      }
@@ -96,7 +96,7 @@ urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 -- borders
 borderWidth' = 1
 normalBorderColor'  = "#666666"
-focusedBorderColor' = "#4CAD64"
+focusedBorderColor' = "#B8904C"
 
 -- tabs
 tabTheme1 = defaultTheme { decoHeight = 12
