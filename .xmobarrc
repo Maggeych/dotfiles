@@ -1,4 +1,4 @@
-Config { font = "xft:ProggyTinyTTSZ-12:regular"
+Config { font = "-*-Clean-*-*-*-*-13-*-*-*-*-*-*-*"
   , bgColor = "#3A3A3A"
   , fgColor = "#777777"
   , border = BottomB
