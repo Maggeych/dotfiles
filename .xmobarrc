@@ -1,5 +1,5 @@
-Config { font = "xft:ProggyTinyTTSZ-12:regular"
-  , bgColor = "#3A3A3A"
+Config { font = "xft:Termsyn-8:regular"
+  , bgColor = "#222222"
   , fgColor = "#777777"
   , border = BottomB
   , borderColor = "#000000"

@@ -6,7 +6,7 @@ URxvt*termName:         rxvt-256color
 URxvt.scrollBar: false 
 !URxvt.font: xft:ProggyTinyTTSZ-12:antialias=false
 !URxvt.boldFont: xft:ProggyTinyTTSZ-12:antialias=false
-URxvt.font: xft:Monospace-8
+URxvt.font: xft:Termsyn-8
 ! ! Black
 ! URxvt*color0:  #000000
 ! URxvt*color8:  #555555
