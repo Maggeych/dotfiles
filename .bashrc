@@ -4,7 +4,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto --group-directories-first'
+alias ls='ls --color=auto --group-directories-first --block-size=K'
 alias ll='ls -la'
 alias c='clear'
 #PS1='\[\033[1;34m\][\T] \[\033[00;31m\]\W\[\033[0;31m\] :\[\033[0m\] '
