@@ -10,10 +10,11 @@ Config { font = "xft:Termsyn-8:regular"
       , Run MultiCpu ["-t", "<autototal>", "-L","3","-H","50","--normal","#666666","--high","#A35861"] 10
       , Run Memory ["-t","<used>M"] 10
       , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+      , Run Battery ["-t","<left>%","-L","40","-H","79","-h","#558F51","-n","#9C7854","-l","#A35861"] 10
       , Run StdinReader
       , Run DiskU [("sda3", "<free>"), ("/", "<free>")] [] 10
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = " %StdinReader% }{ %multicpu% <fc=#999999>|</fc> %wlan0% <fc=#999999>|</fc> %memory% <fc=#999999>|</fc> %disku% <fc=#999999>|</fc> <fc=#AAAAAA>%date%</fc> "
+  , template = " %StdinReader% }{ %multicpu% <fc=#999999>|</fc> %wlan0% <fc=#999999>|</fc> %memory% <fc=#999999>|</fc> %disku% <fc=#999999>|</fc> %battery% <fc=#999999>|</fc> <fc=#AAAAAA>%date%</fc> "
 }
