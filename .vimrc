@@ -149,8 +149,12 @@ function! ToggleBetweenHeaderAndSourceFile()
   let bufname = bufname("%")
   let ext = fnamemodify(bufname, ":e")
   if ext == "h"
-    let ext = "cpp"
-  elseif ext == "cpp"
+    if (filereadable(fnamemodify(bufname, ":r") . "." . "cu"))
+      let ext = "cu"
+    else
+      let ext = "cpp"
+    endif
+  elseif ext == "cpp" || ext == "cu"
     let ext = "h"
   else
     return
