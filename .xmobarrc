@@ -11,7 +11,7 @@ Config { font = "xft:Termsyn-8:regular"
       , Run Memory ["-t","<used>M"] 10
       , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
       , Run StdinReader
-      , Run DiskU [("sda3", "<free>"), ("/", "<free>")] [] 10
+      , Run DiskU [("/home", "<free>"), ("/", "<free>")] [] 10
     ]
   , sepChar = "%"
   , alignSep = "}{"
