@@ -13,4 +13,5 @@ balsa &
 clementine & 
 thunar &
 dropboxd &
-exec ck-launch-session dbus-launch xmonad
+# exec ck-launch-session dbus-launch xmonad
+exec dbus-launch xmonad
