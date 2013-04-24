@@ -65,9 +65,9 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          --, className =? "MPlayer"   --> doFloat
                          , className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
-			 , className =? "Opera"     --> doShift "web"
+			 , className =? "Vimprobable2"     --> doShift "web"
 			 , className =? "Clementine"     --> doShift "music"
-			 , className =? "Balsa" --> doShift "mail"
+			 , className =? "Sylpheed" --> doShift "mail"
 			 , className =? "Thunar" --> doShift "file"
 			 , insertPosition Above Newer
 			 , transience'
@@ -116,6 +116,7 @@ layoutHook' = -- onWorkspace "web" full $
    -- onWorkspace "mail" full $
    -- onWorkspace "music" full $
    -- onWorkspace "file" full $
+   onWorkspace "web" weblayout $
    tiled ||| wide
   where
     rt = ResizableTall 1 (2/100) (1/2) []
@@ -126,6 +127,7 @@ layoutHook' = -- onWorkspace "web" full $
     tiled  = named "tall" $ smartBorders $ ResizableTall nmaster delta (1/2) [] 
     tile3  = named "t3" $ smartBorders $ ThreeColMid nmaster delta (1/3)
     wide = named "wide" $ smartBorders $ Mirror $ ResizableTall nmaster delta (1/2) [] 
+    weblayout = tab ||| tiled ||| wide
     -- Default number of windows in master pane
     nmaster = 1
     -- Percent of the screen to increment when resizing
@@ -151,9 +153,9 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     [ ((modMask,               xK_Return), spawn $ XMonad.terminal conf) 
     , ((modMask,               xK_p     ), spawn "dmenu_run") 
     -- , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
-    , ((modMask .|. shiftMask, xK_m     ), spawn "balsa")
+    , ((modMask .|. shiftMask, xK_m     ), spawn "sylpheed")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "opera")
+    , ((modMask, xK_o), spawn "vimprobable2")
     , ((modMask, xK_f), spawn "thunar")
 
     -- grid
