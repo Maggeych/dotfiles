@@ -34,6 +34,10 @@ import XMonad.Layout.ThreeColumns
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.Spiral
 
+-- Media keys
+import Graphics.X11.ExtraTypes.XF86
+import XMonad.Actions.Volume
+
 -------------------------------------------------------------------------------
 -- Main --
 main :: IO ()
@@ -188,6 +192,14 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- increase or decrease number of windows in the master area
     , ((modMask              , xK_comma ), sendMessage (IncMasterN 1))
     , ((modMask              , xK_period), sendMessage (IncMasterN (-1)))
+
+    -- Keyboard backlight
+    , ((0,               xF86XK_KbdBrightnessUp), spawn "asus-kbd-backlight up")
+    , ((0,               xF86XK_KbdBrightnessDown), spawn "asus-kbd-backlight down")
+
+    -- Volume control
+    , ((0,               xF86XK_AudioLowerVolume), lowerVolum 4 >> return())
+    , ((0,               xF86XK_AudioRaiseVolume), raiseVolume 4 >> return())
 
     -- resizing
     , ((modMask,               xK_h     ), sendMessage Shrink)

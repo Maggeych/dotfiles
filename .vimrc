@@ -49,6 +49,7 @@ set t_Co=256
 "set t_AB=[48;5;%dm
 "set t_AF=[38;5;%dm
 "let g:CSApprox_attr_map = { 'bold' : 'bold', 'italic' : '', 'sp' : '' }
+let g:kolor_alternative_matchparen=0
 color kolor
 highlight NonText cterm=bold ctermfg=0 guifg=gray
 highlight SpecialKey cterm=bold ctermfg=0 guifg=gray

@@ -1,19 +1,20 @@
-Config { font = "xft:Termsyn-8:regular"
+Config { font = "xft:Inconsolata-10:regular"
   , bgColor = "#222222"
   , fgColor = "#777777"
   , border = BottomB
   , borderColor = "#000000"
-  , position = TopSize C 100 20 
+  , position = TopSize C 100 20
   , lowerOnStart = True
   , commands = [ 
-      Run Network "wlan0" ["-L", "8", "-H", "32", "-l", "#666666", "-n", "#9C7854", "-h", "#A35861", "-t", "<rx> : <tx>"] 10
+      Run Network "wlp3s0" ["-L", "8", "-H", "32", "-l", "#666666", "-n", "#9C7854", "-h", "#A35861", "-t", "<rx> : <tx>"] 10
       , Run MultiCpu ["-t", "<autototal>", "-L","3","-H","50","--normal","#666666","--high","#A35861"] 10
       , Run Memory ["-t","<used>M"] 10
       , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
       , Run StdinReader
+      , Run Battery ["-t","<acstatus> <left>","-L","25","-H","75","-h","green","-n","yellow","-l","red","--","-O","+","-o","-","-f","status"] 10
       , Run DiskU [("/home", "<free>"), ("/", "<free>")] [] 10
     ]
   , sepChar = "%"
   , alignSep = "}{"
-  , template = " %StdinReader% }{ %multicpu% <fc=#999999>|</fc> %wlan0% <fc=#999999>|</fc> %memory% <fc=#999999>|</fc> %disku% <fc=#999999>|</fc> <fc=#AAAAAA>%date%</fc> "
+  , template = " %StdinReader% }{ %multicpu% <fc=#999999>|</fc> %wlp3s0% <fc=#999999>|</fc> %memory% <fc=#999999>|</fc> %disku% <fc=#999999>|</fc> %battery% <fc=#999999>|</fc> <fc=#AAAAAA>%date%</fc> "
 }

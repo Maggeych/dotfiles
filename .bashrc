@@ -15,7 +15,7 @@ alias abletonlive='WINEPREFIX="/home/maggeych/Ableton" wine /home/maggeych/Ablet
 #PS1='\[\033[1;30m\]\W \[\033[0;33m\]>\[\033[0m\] '
 OUTLINE="\[\e[0;32m\]"
 #PS1="\[\e[0;32m\]┌─ ‖\[\e[1;37m\]\u\[\e[0;32m\]|\h\[\e[0;32m\]‖ \[\e[0;37m\][\w]\n\[\e[0;32m\]└──── \[\e[0m\]"
-PS1="${OUTLINE}┌─ ‖\[\e[0;37m\]\u${OUTLINE}|\[\e[1;37m\]\h${OUTLINE}‖ [\w]\n${OUTLINE}└──── \[\e[0m\]"
+PS1="${OUTLINE}┌─ [\[\e[0;37m\]\u${OUTLINE}|\[\e[1;37m\]\h${OUTLINE}] [\w]\n${OUTLINE}└──── \[\e[0m\]"
 PS2="   └─── "
 export TERM='xterm-256color'
 export EDITOR='vim'
