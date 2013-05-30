@@ -36,7 +36,6 @@ import XMonad.Layout.Spiral
 
 -- Media keys
 import Graphics.X11.ExtraTypes.XF86
-import XMonad.Actions.Volume
 
 -------------------------------------------------------------------------------
 -- Main --
@@ -69,10 +68,11 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          --, className =? "MPlayer"   --> doFloat
                          , className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
-			 , className =? "Vimprobable2"     --> doShift "web"
-			 , className =? "Clementine"     --> doShift "music"
-			 , className =? "Sylpheed" --> doShift "mail"
-			 , className =? "Thunar" --> doShift "file"
+			 , className =? "Vimprobable2"     --> doShift "2"
+			 , className =? "Firefox"     --> doShift "2"
+			 , className =? "Clementine"     --> doShift "5"
+			 , className =? "Sylpheed" --> doShift "4"
+			 , className =? "Thunar" --> doShift "3"
 			 , insertPosition Above Newer
 			 , transience'
                          ]
@@ -113,25 +113,14 @@ tabTheme1 = defaultTheme { decoHeight = 12
                          }
 
 -- workspaces
-workspaces' = ["misc", "web", "dev", "4", "5", "6", "file", "mail", "music"]
+workspaces' = ["1", "2", "3", "4", "5"]
 
 -- layouts
-layoutHook' = -- onWorkspace "web" full $ 
-   -- onWorkspace "mail" full $
-   -- onWorkspace "music" full $
-   -- onWorkspace "file" full $
-   onWorkspace "web" weblayout $
+layoutHook' =
    tiled ||| wide
   where
-    rt = ResizableTall 1 (2/100) (1/2) []
-    tile = spacing 10 $ named "|t|" $ smartBorders rt
-    mtile = spacing 10 $ named "-t-" $ smartBorders $ Mirror rt
-    tab = named "(t)" $ noBorders $ tabbed shrinkText tabTheme1
-    full = named "[]" $ smartBorders Full
     tiled  = named "tall" $ smartBorders $ ResizableTall nmaster delta (1/2) [] 
-    tile3  = named "t3" $ smartBorders $ ThreeColMid nmaster delta (1/3)
     wide = named "wide" $ smartBorders $ Mirror $ ResizableTall nmaster delta (1/2) [] 
-    weblayout = tab ||| tiled ||| wide
     -- Default number of windows in master pane
     nmaster = 1
     -- Percent of the screen to increment when resizing
@@ -159,7 +148,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
     , ((modMask .|. shiftMask, xK_m     ), spawn "sylpheed")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "vimprobable2")
+    , ((modMask, xK_o), spawn "firefox")
     , ((modMask, xK_f), spawn "thunar")
 
     -- grid
@@ -194,12 +183,17 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask              , xK_period), sendMessage (IncMasterN (-1)))
 
     -- Keyboard backlight
-    , ((0,               xF86XK_KbdBrightnessUp), spawn "asus-kbd-backlight up")
-    , ((0,               xF86XK_KbdBrightnessDown), spawn "asus-kbd-backlight down")
+    , ((0,               xF86XK_KbdBrightnessUp), spawn "kbdbacklight up")
+    , ((0,               xF86XK_KbdBrightnessDown), spawn "kbdbacklight down")
+
+    -- Monitor backlight
+    , ((0,               xF86XK_MonBrightnessUp), spawn "showbrightness")
+    , ((0,               xF86XK_MonBrightnessDown), spawn "showbrightness")
 
     -- Volume control
-    , ((0,               xF86XK_AudioLowerVolume), lowerVolum 4 >> return())
-    , ((0,               xF86XK_AudioRaiseVolume), raiseVolume 4 >> return())
+    , ((0,               xF86XK_AudioRaiseVolume), spawn "volumectl raise")
+    , ((0,               xF86XK_AudioLowerVolume), spawn "volumectl lower")
+    , ((0,               xF86XK_AudioMute), spawn "volumectl mute")
 
     -- resizing
     , ((modMask,               xK_h     ), sendMessage Shrink)
