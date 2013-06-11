@@ -11,6 +11,8 @@ import XMonad hiding ( (|||) )
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import System.Exit
+import XMonad.Util.Run ( spawnPipe )
+import System.IO ( hPutStrLn )
 
 -- actions
 import XMonad.Actions.GridSelect
@@ -24,15 +26,12 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName -- used for a minecraft fix, see startupHook
 
 -- layouts
-import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.PerWorkspace
-import XMonad.Layout.Named
-import XMonad.Layout.Tabbed
 import XMonad.Layout.Spacing
-import XMonad.Layout.ThreeColumns
 import XMonad.Layout.LayoutCombinators
-import XMonad.Layout.Spiral
+import XMonad.Layout.Grid
+import XMonad.Layout.Accordion
 
 -- Media keys
 import Graphics.X11.ExtraTypes.XF86
@@ -40,13 +39,17 @@ import Graphics.X11.ExtraTypes.XF86
 -------------------------------------------------------------------------------
 -- Main --
 main :: IO ()
-main = xmonad =<< statusBar cmd pp kb conf
-  where 
-    uhook = withUrgencyHookC NoUrgencyHook urgentConfig
-    cmd = "bash -c \"tee >(xmobar -x0) | xmobar -x1\""
-    pp = customPP
-    kb = toggleStrutsKey
-    conf = uhook myConfig
+main = do
+  dzenRightBar <- spawnPipe "conky -c ~/.xmonad/.conky_dzen | dzen2 -ta r -w 450 -h 16 -x 1420 -bg '#2E2C28' -fn 'agave:bold:size=10' -y 0"
+  --status <- spawnPipe "dzen2 -w 1720 -h 20 -x 0 -y 0 -ta l -fn 'ubuntu:bold:size=10' -bg '#FFFFFF'"
+  --xmonad $ myConfig { logHook =  logHook' status }
+  xmonad =<< statusBar cmd pp kb conf
+    where
+      uhook = withUrgencyHookC NoUrgencyHook urgentConfig
+      cmd = "dzen2 -w 1420 -h 16 -x 0 -y 0 -ta l -fn 'agave:bold:size=10' -bg '#2E2C28'"
+      pp = customPP
+      kb = toggleStrutsKey
+      conf = uhook myConfig
 
 -------------------------------------------------------------------------------
 -- Configs --
@@ -61,6 +64,8 @@ myConfig = defaultConfig { workspaces = workspaces'
                          -- , startupHook= setWMName "LG3D"  -- minecraft wont resize according to the window without this
                          , manageHook = manageHook'
                          }
+
+logHook' h = dynamicLogWithPP $ customPP { ppOutput = hPutStrLn h }
 
 -------------------------------------------------------------------------------
 -- Window Management --
@@ -82,14 +87,20 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 -------------------------------------------------------------------------------
 -- Looks --
 -- bar
-customPP = defaultPP { ppCurrent = xmobarColor "#25DB4F" "" . wrap "<" ">"
-                     , ppVisible = xmobarColor "#4CAD64" ""
-                     , ppHidden = xmobarColor "#888888" ""
-                     , ppHiddenNoWindows = xmobarColor "#686964" ""
-                     , ppUrgent = xmobarColor "#25DB4F" "" . wrap "[" "]" 
-                     , ppLayout = xmobarColor "#4CAD64" ""
-                     , ppTitle =  xmobarColor "#999999" "" . shorten 80
-                     , ppSep = xmobarColor "#666666" "" " | "
+customPP = defaultPP { ppCurrent = dzenColor "#000000" "#9F8A4B" . pad
+                     , ppVisible = dzenColor "#A3A6AB" "" . pad
+                     , ppHidden = dzenColor "#A3A6AB" "" . wrap " ^i(/home/maggeych/.xmonad/dzen2/corner.xbm)" "" . pad
+                     , ppHiddenNoWindows = dzenColor "#A3A6AB" "" . pad
+                     , ppUrgent = dzenColor "#000000" "#C7756E" . pad
+                     , ppLayout = dzenColor "#000000" "#9F8A4B" . 
+                        (\x -> case x of
+                         "SmartSpacing 3 ResizableTall"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_tall.xbm) "
+                         "SmartSpacing 3 Mirror Accordion"			->	" ^i(/home/maggeych/.xmonad/dzen2/fs_02.xbm) "
+                         _				->	" ^i(/home/maggeych/.xmonad/dzen2/grid.xbm) "
+                        )
+                     , ppTitle =  dzenColor "#EEEEEE" "" . shorten 80 .pad
+                     , ppSep = dzenColor "#A3A6AB" "" "   "
+                     , ppWsSep = dzenColor "#000000" "#9F8A4B" "|"
                      }
 -- GridSelect
 myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
@@ -98,34 +109,21 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
 -- borders
-borderWidth' = 1
-normalBorderColor'  = "#666666"
-focusedBorderColor' = "#4CAD64"
-
--- tabs
-tabTheme1 = defaultTheme { decoHeight = 12
-                         , activeColor = "#EFEBE7"
-                         , activeBorderColor = "#A35861"
-                         , activeTextColor = "#A35861"
-			 , inactiveColor = "#EFEBE7"
-			 , inactiveTextColor = "#666666"
-                         , inactiveBorderColor = "#B3B3B3"
-                         }
+borderWidth' = 4
+normalBorderColor'  = "#2E2C28"
+focusedBorderColor' = "#CFB776"
 
 -- workspaces
-workspaces' = ["1", "2", "3", "4", "5"]
-
+workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
+-- workspaces' = ["1", "2", "3", "4", "5"]
+                                                             
 -- layouts
-layoutHook' =
-   tiled ||| wide
+layoutHook' = grid ||| accordion ||| tiled
   where
-    tiled  = named "tall" $ smartBorders $ ResizableTall nmaster delta (1/2) [] 
-    wide = named "wide" $ smartBorders $ Mirror $ ResizableTall nmaster delta (1/2) [] 
-    -- Default number of windows in master pane
-    nmaster = 1
-    -- Percent of the screen to increment when resizing
-    delta = 2/100 -- Default proportion of the screen taken up by main pane
-    ratio = toRational (2/(1 + sqrt 5 :: Double))
+    grid = space $ Mirror $ Grid
+    accordion = space $ Mirror $ Accordion
+    tiled  = space $ ResizableTall 1 (5/100) (1/2) []
+    space = smartSpacing 3
 
 -------------------------------------------------------------------------------
 -- Terminal --
