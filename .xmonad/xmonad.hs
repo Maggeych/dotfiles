@@ -32,6 +32,7 @@ import XMonad.Layout.Spacing
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.Grid
 import XMonad.Layout.Accordion
+import XMonad.Layout.Named
 
 -- Media keys
 import Graphics.X11.ExtraTypes.XF86
@@ -94,9 +95,9 @@ customPP = defaultPP { ppCurrent = dzenColor "#000000" "#9F8A4B" . pad
                      , ppUrgent = dzenColor "#000000" "#C7756E" . pad
                      , ppLayout = dzenColor "#000000" "#9F8A4B" . 
                         (\x -> case x of
-                         "SmartSpacing 3 ResizableTall"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_tall.xbm) "
-                         "SmartSpacing 3 Mirror Accordion"			->	" ^i(/home/maggeych/.xmonad/dzen2/fs_02.xbm) "
-                         _				->	" ^i(/home/maggeych/.xmonad/dzen2/grid.xbm) "
+                         "tiled"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_tall.xbm) "
+                         "accordion"			->	" ^i(/home/maggeych/.xmonad/dzen2/fs_02.xbm) "
+                         "grid"				->	" ^i(/home/maggeych/.xmonad/dzen2/grid.xbm) "
                         )
                      , ppTitle =  dzenColor "#EEEEEE" "" . shorten 80 .pad
                      , ppSep = dzenColor "#555555" "" "|"
@@ -120,9 +121,9 @@ workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/magg
 -- workspaces' = ["1", "2", "3", "4", "5"]
                                                              
 -- layouts
-layoutHook' = grid ||| accordion ||| tiled
+layoutHook' = named "grid" grid ||| named "accordion" accordion ||| named "tiled" tiled
   where
-    grid = space $ Mirror $ Grid
+    grid = space $ Mirror $ GridRatio (9/16)
     accordion = space $ Mirror $ Accordion
     tiled  = space $ ResizableTall 1 (5/100) (1/2) []
     space = smartSpacing 3
@@ -157,9 +158,9 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- layouts
     , ((modMask,               xK_space ), sendMessage NextLayout)
     , ((modMask .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
-    , ((modMask,               xK_F1    ), sendMessage $ JumpToLayout "tiled")
-    , ((modMask,               xK_F2    ), sendMessage $ JumpToLayout "tile3")
-    , ((modMask,               xK_F3    ), sendMessage $ JumpToLayout "full")
+    , ((modMask,               xK_F1    ), sendMessage $ JumpToLayout "grid")
+    , ((modMask,               xK_F2    ), sendMessage $ JumpToLayout "accordion")
+    , ((modMask,               xK_F3    ), sendMessage $ JumpToLayout "tiled")
     
     -- floating layer stuff
     , ((modMask,               xK_t     ), withFocused $ windows . W.sink)
@@ -202,7 +203,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
 
     -- quit, or restart
-    , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    -- , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
     , ((modMask              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
     ]
     ++
