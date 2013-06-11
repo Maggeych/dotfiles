@@ -89,7 +89,7 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 -- bar
 customPP = defaultPP { ppCurrent = dzenColor "#000000" "#9F8A4B" . pad
                      , ppVisible = dzenColor "#A3A6AB" "" . pad
-                     , ppHidden = dzenColor "#A3A6AB" "" . wrap " ^i(/home/maggeych/.xmonad/dzen2/corner.xbm)" "" . pad
+                     , ppHidden = dzenColor "#A3A6AB" "#555555" . pad
                      , ppHiddenNoWindows = dzenColor "#A3A6AB" "" . pad
                      , ppUrgent = dzenColor "#000000" "#C7756E" . pad
                      , ppLayout = dzenColor "#000000" "#9F8A4B" . 
@@ -99,8 +99,8 @@ customPP = defaultPP { ppCurrent = dzenColor "#000000" "#9F8A4B" . pad
                          _				->	" ^i(/home/maggeych/.xmonad/dzen2/grid.xbm) "
                         )
                      , ppTitle =  dzenColor "#EEEEEE" "" . shorten 80 .pad
-                     , ppSep = dzenColor "#A3A6AB" "" "   "
-                     , ppWsSep = dzenColor "#000000" "#9F8A4B" "|"
+                     , ppSep = dzenColor "#555555" "" "|"
+                     , ppWsSep = dzenColor "#9F8A4B" "" "|"
                      }
 -- GridSelect
 myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
@@ -110,8 +110,10 @@ urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
 -- borders
 borderWidth' = 4
-normalBorderColor'  = "#2E2C28"
-focusedBorderColor' = "#CFB776"
+-- normalBorderColor'  = "#2E2C28"
+-- focusedBorderColor' = "#CFB776"
+normalBorderColor'  = "#EEEEEE"
+focusedBorderColor' = "#2E2C28"
 
 -- workspaces
 workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
@@ -142,7 +144,7 @@ keys' :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- launching and killing programs
     [ ((modMask,               xK_Return), spawn $ XMonad.terminal conf) 
-    , ((modMask,               xK_p     ), spawn "dmenu_run") 
+    , ((modMask,               xK_p     ), spawn "dmenu_run -b -p 'Run'") 
     -- , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
     , ((modMask .|. shiftMask, xK_m     ), spawn "sylpheed")
     , ((modMask .|. shiftMask, xK_c     ), kill)
