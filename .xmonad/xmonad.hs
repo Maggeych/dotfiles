@@ -192,9 +192,9 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask              , xK_comma ), sendMessage (IncMasterN 1))
     , ((modMask              , xK_period), sendMessage (IncMasterN (-1)))
 
-    -- Keyboard backlight
-    , ((0,               xF86XK_KbdBrightnessUp), spawn "kbdbacklight up")
-    , ((0,               xF86XK_KbdBrightnessDown), spawn "kbdbacklight down")
+    -- Keyboard backlight                                       
+    , ((0,               xF86XK_KbdBrightnessUp), spawn "asus-kbd-backlight up")
+    , ((0,               xF86XK_KbdBrightnessDown), spawn "asus-kbd-backlight down")
 
     -- Monitor backlight
     , ((0,               xF86XK_MonBrightnessUp), spawn "showbrightness")
@@ -212,7 +212,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
 
     -- quit, or restart
-    -- , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
     , ((modMask              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
     ]
     ++
