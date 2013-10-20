@@ -19,3 +19,4 @@ PS2="   └─── "
 export TERM='xterm-256color'
 export EDITOR='vim'
 export XBMC_HOME=/usr/local/share/XBMC
+export _JAVA_AWT_WM_NOREPARENTING=1
