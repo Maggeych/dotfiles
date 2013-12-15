@@ -11,6 +11,8 @@ import XMonad hiding ( (|||) )
 import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import System.Exit
+import XMonad.Util.Run ( spawnPipe )
+import System.IO ( hPutStrLn )
 
 -- actions
 import XMonad.Actions.GridSelect
@@ -22,28 +24,34 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName -- used for a minecraft fix, see startupHook
+import XMonad.Hooks.FadeInactive
+import XMonad.Hooks.EwmhDesktops
 
 -- layouts
-import XMonad.Layout.NoBorders
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.PerWorkspace
-import XMonad.Layout.Named
-import XMonad.Layout.Tabbed
 import XMonad.Layout.Spacing
-import XMonad.Layout.ThreeColumns
 import XMonad.Layout.LayoutCombinators
-import XMonad.Layout.Spiral
+import XMonad.Layout.Grid
+import XMonad.Layout.Accordion
+import XMonad.Layout.Named
+import XMonad.Layout.NoBorders
+import XMonad.Layout.Fullscreen
+import XMonad.Layout.ToggleLayouts
+
+-- Media keys
+import Graphics.X11.ExtraTypes.XF86
 
 -------------------------------------------------------------------------------
 -- Main --
 main :: IO ()
 main = xmonad =<< statusBar cmd pp kb conf
-  where 
-    uhook = withUrgencyHookC NoUrgencyHook urgentConfig
-    cmd = "bash -c \"tee >(xmobar -x0) | xmobar -x1\""
-    pp = customPP
-    kb = toggleStrutsKey
-    conf = uhook myConfig
+    where
+      uhook = withUrgencyHookC NoUrgencyHook urgentConfig
+      cmd = "bash -c \"tee >(xmobar -x0) | xmobar -x1\""
+      pp = customPP
+      kb = toggleStrutsKey
+      conf = uhook $ ewmh myConfig
 
 -------------------------------------------------------------------------------
 -- Configs --
@@ -55,9 +63,11 @@ myConfig = defaultConfig { workspaces = workspaces'
                          , terminal = terminal'
                          , keys = keys'
                          , layoutHook = layoutHook'
-                         -- , startupHook= setWMName "LG3D"  -- minecraft wont resize according to the window without this
                          , manageHook = manageHook'
                          }
+
+logHook' = fadeInactiveLogHook fadeAmount
+      where fadeAmount = 0xDDDDDDDD
 
 -------------------------------------------------------------------------------
 -- Window Management --
@@ -66,7 +76,6 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          , className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
 			 , className =? "Firefox"     --> doShift "web"
-			 , className =? "Clementine"     --> doShift "music"
 			 , className =? "Thunderbird" --> doShift "mail"
 			 , className =? "Thunar" --> doShift "file"
 			 , insertPosition Above Newer
@@ -82,11 +91,12 @@ customPP = defaultPP { ppCurrent = xmobarColor "#25DB4F" "" . wrap "<" ">"
                      , ppVisible = xmobarColor "#4CAD64" ""
                      , ppHidden = xmobarColor "#888888" ""
                      , ppHiddenNoWindows = xmobarColor "#686964" ""
-                     , ppUrgent = xmobarColor "#25DB4F" "" . wrap "[" "]" 
+                     , ppUrgent = xmobarColor "#25DB4F" "" . wrap "[" "]"
                      , ppLayout = xmobarColor "#4CAD64" ""
-                     , ppTitle =  xmobarColor "#999999" "" . shorten 80
+                     , ppTitle = xmobarColor "#999999" "" . shorten 80
                      , ppSep = xmobarColor "#666666" "" " | "
                      }
+
 -- GridSelect
 myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 
@@ -94,45 +104,22 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
 -- borders
-borderWidth' = 1
-normalBorderColor'  = "#666666"
+borderWidth' = 4
+-- normalBorderColor'  = "#2E2C28"
+-- focusedBorderColor' = "#CFB776"
+normalBorderColor'  = "#000000"
 focusedBorderColor' = "#4CAD64"
-
--- tabs
-tabTheme1 = defaultTheme { decoHeight = 12
-                         , activeColor = "#EFEBE7"
-                         , activeBorderColor = "#A35861"
-                         , activeTextColor = "#A35861"
-			 , inactiveColor = "#EFEBE7"
-			 , inactiveTextColor = "#666666"
-                         , inactiveBorderColor = "#B3B3B3"
-                         }
 
 -- workspaces
 workspaces' = ["misc", "web", "dev", "4", "5", "6", "file", "mail", "music"]
-
+                                                             
 -- layouts
-layoutHook' = -- onWorkspace "web" full $ 
-   -- onWorkspace "mail" full $
-   -- onWorkspace "music" full $
-   -- onWorkspace "file" full $
-   onWorkspace "web" weblayout $
-   tiled ||| wide
+layoutHook' = (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide))
   where
-    rt = ResizableTall 1 (2/100) (1/2) []
-    tile = spacing 10 $ named "|t|" $ smartBorders rt
-    mtile = spacing 10 $ named "-t-" $ smartBorders $ Mirror rt
-    tab = named "(t)" $ noBorders $ tabbed shrinkText tabTheme1
-    full = named "[]" $ smartBorders Full
-    tiled  = named "tall" $ smartBorders $ ResizableTall nmaster delta (1/2) [] 
-    tile3  = named "t3" $ smartBorders $ ThreeColMid nmaster delta (1/3)
-    wide = named "wide" $ smartBorders $ Mirror $ ResizableTall nmaster delta (1/2) [] 
-    weblayout = tab ||| tiled ||| wide
-    -- Default number of windows in master pane
-    nmaster = 1
-    -- Percent of the screen to increment when resizing
-    delta = 2/100 -- Default proportion of the screen taken up by main pane
-    ratio = toRational (2/(1 + sqrt 5 :: Double))
+    grid = space $ Mirror $ GridRatio(3/4)
+    tall = space $ ResizableTall 1 (5/100) (1/2) []
+    wide = space $ Mirror $ ResizableTall 1 (5/100) (1/2) []
+    space = spacing 2
 
 -------------------------------------------------------------------------------
 -- Terminal --
@@ -151,12 +138,12 @@ keys' :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
 keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- launching and killing programs
     [ ((modMask,               xK_Return), spawn $ XMonad.terminal conf) 
-    , ((modMask,               xK_p     ), spawn "dmenu_run") 
-    -- , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
+    , ((modMask,               xK_p     ), spawn "dmenu_run -b -p 'Run'") 
     , ((modMask .|. shiftMask, xK_m     ), spawn "thunderbird")
     , ((modMask .|. shiftMask, xK_c     ), kill)
     , ((modMask, xK_o), spawn "firefox")
-    , ((modMask, xK_f), spawn "thunar")
+    , ((modMask .|. shiftMask, xK_f), spawn "thunar")
+    , ((modMask, xK_f), sendMessage ToggleStruts >> sendMessage ToggleLayout)
 
     -- grid
     , ((modMask,               xK_g     ), goToSelected myGSConfig)
@@ -164,9 +151,10 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- layouts
     , ((modMask,               xK_space ), sendMessage NextLayout)
     , ((modMask .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
-    , ((modMask,               xK_F1    ), sendMessage $ JumpToLayout "tiled")
-    , ((modMask,               xK_F2    ), sendMessage $ JumpToLayout "tile3")
-    , ((modMask,               xK_F3    ), sendMessage $ JumpToLayout "full")
+    , ((modMask,               xK_F1    ), sendMessage $ JumpToLayout "grid")
+    , ((modMask,               xK_F2    ), sendMessage $ JumpToLayout "accordion")
+    , ((modMask,               xK_F3    ), sendMessage $ JumpToLayout "tiled")
+    , ((modMask,               xK_F4    ), sendMessage $ JumpToLayout "full")
     
     -- floating layer stuff
     , ((modMask,               xK_t     ), withFocused $ windows . W.sink)
@@ -196,7 +184,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
 
     -- quit, or restart
-    , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
+    -- , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
     , ((modMask              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
     ]
     ++
