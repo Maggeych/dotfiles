@@ -3,7 +3,7 @@
 URxvt*background:       #1c1c1c
 URxvt*foreground:       #808080
 URxvt*.transparent:     true
-URxvt*.shading:         100
+URxvt*.shading:         10
 URxvt*termName:         rxvt-256color
 URxvt.scrollBar: false 
 !URxvt.font: xft:ProggyTinyTTSZ-12:antialias=false
