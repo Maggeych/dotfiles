@@ -65,9 +65,9 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          --, className =? "MPlayer"   --> doFloat
                          , className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
-			 , className =? "Vimprobable2"     --> doShift "web"
+			 , className =? "Firefox"     --> doShift "web"
 			 , className =? "Clementine"     --> doShift "music"
-			 , className =? "Sylpheed" --> doShift "mail"
+			 , className =? "Thunderbird" --> doShift "mail"
 			 , className =? "Thunar" --> doShift "file"
 			 , insertPosition Above Newer
 			 , transience'
@@ -153,9 +153,9 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     [ ((modMask,               xK_Return), spawn $ XMonad.terminal conf) 
     , ((modMask,               xK_p     ), spawn "dmenu_run") 
     -- , ((modMask .|. shiftMask, xK_p     ), spawn "gmrun")
-    , ((modMask .|. shiftMask, xK_m     ), spawn "sylpheed")
+    , ((modMask .|. shiftMask, xK_m     ), spawn "thunderbird")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "vimprobable2")
+    , ((modMask, xK_o), spawn "firefox")
     , ((modMask, xK_f), spawn "thunar")
 
     -- grid
