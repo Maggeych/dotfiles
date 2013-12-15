@@ -8,10 +8,11 @@ xrandr --output DVI-I-3 --mode 1600x1200
 xrandr --output DVI-I-3 --rotate right
 feh --bg-tile ~/.wallpapers/patterns/bg-pattern.png
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources
-opera &
-balsa &
+firefox &
+thunderbird &
 clementine & 
 thunar &
-dropboxd &
+# dropboxd &
 # exec ck-launch-session dbus-launch xmonad
+devmon &
 exec dbus-launch xmonad
