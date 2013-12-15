@@ -87,13 +87,13 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 -------------------------------------------------------------------------------
 -- Looks --
 -- bar
-customPP = defaultPP { ppCurrent = xmobarColor "#25DB4F" "" . wrap "<" ">"
-                     , ppVisible = xmobarColor "#4CAD64" ""
+customPP = defaultPP { ppCurrent = xmobarColor "#58C1F5" "" . wrap "<" ">"
+                     , ppVisible = xmobarColor "#58C1F5" ""
                      , ppHidden = xmobarColor "#888888" ""
                      , ppHiddenNoWindows = xmobarColor "#686964" ""
                      , ppUrgent = xmobarColor "#25DB4F" "" . wrap "[" "]"
-                     , ppLayout = xmobarColor "#4CAD64" ""
-                     , ppTitle = xmobarColor "#999999" "" . shorten 80
+                     , ppLayout = xmobarColor "#58C1F5" ""
+                     , ppTitle = xmobarColor "#ED3764" "" . shorten 80
                      , ppSep = xmobarColor "#666666" "" " | "
                      }
 
@@ -104,11 +104,11 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
 -- borders
-borderWidth' = 4
+borderWidth' = 3
 -- normalBorderColor'  = "#2E2C28"
 -- focusedBorderColor' = "#CFB776"
 normalBorderColor'  = "#000000"
-focusedBorderColor' = "#4CAD64"
+focusedBorderColor' = "#58C1F5"
 
 -- workspaces
 workspaces' = ["misc", "web", "dev", "4", "5", "6", "file", "mail", "music"]
