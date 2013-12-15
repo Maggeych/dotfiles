@@ -1,6 +1,5 @@
 " -- reset distro made changes
 set nocompatible
-
 " ==============================================================================
 " -- vim general
 " ==============================================================================
@@ -43,6 +42,9 @@ set ssop-=options                          " dont save global or local values in
 set ssop-=folds                            " dont save folds in a session
 filetype plugin indent on                  " detect filetype and load plugins and indents
 syntax on                                  " syntax highlighting on
+set mouse=a
+map <ScrollWheelUp> 6<C-Y>
+map <ScrollWheelDown> 6<C-E>
 
 " -- colors
 set t_Co=256
@@ -53,34 +55,9 @@ color kolor
 highlight NonText cterm=bold ctermfg=0 guifg=gray
 highlight SpecialKey cterm=bold ctermfg=0 guifg=gray
 highlight LineNr cterm=bold ctermfg=0 guifg=gray
-
-
-" ==============================================================================
-" -- UltiSnips
-" ==============================================================================
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
+let g:NERDTreeWinSize = 25
 
-
-" ==============================================================================
-" -- OmniComplete Tags
-" ==============================================================================
-" configure tags - add additional tags here or comment out not-used ones
-set tags+=~/.vim/tags/cpp
-" build tags of your own project with Ctrl-F12
-map <C-F12> :!ctags -R --sort=yes --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-
-" OmniCppComplete
-let OmniCpp_NamespaceSearch = 1
-let OmniCpp_GlobalScopeSearch = 1
-let OmniCpp_ShowAccess = 1
-let OmniCpp_ShowPrototypeInAbbr = 1 " show function parameters
-let OmniCpp_MayCompleteDot = 1 " autocomplete after .
-let OmniCpp_MayCompleteArrow = 1 " autocomplete after ->
-let OmniCpp_MayCompleteScope = 1 " autocomplete after ::
-let OmniCpp_DefaultNamespaces = ["std", "_GLIBCXX_STD"]
-" automatically open and close the popup menu / preview window
-au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
-set completeopt=menuone,menu,longest,preview
 
 " ==============================================================================
 " -- Sessions
@@ -129,6 +106,11 @@ map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
+" -- delimitMate
+let g:SuperTabCrMapping = 0
+let delimitMate_expand_cr = 1
+inoremap <C-@> <C-R>=delimitMate#JumpAny("\<C-@>")<CR>
+inoremap <C-Space> <C-R>=delimitMate#JumpAny("\<C-Space>")<CR>
 " easy tab navigation
 " Alt-n
 nnoremap n :tabnew<CR>
@@ -140,6 +122,8 @@ inoremap <F7> <Esc>:tabprevious<CR>
 inoremap <F8> <Esc>:tabnext<CR>
 nnoremap <silent> <C-F7> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <C-F8> :execute 'silent! tabmove ' . tabpagenr()<CR>
+nnoremap <F9> :NERDTreeToggle<CR>
+inoremap <F9> <Esc>:NERDTreeToggle<CR>
 " clear highlighted word
 nnoremap <silent> <leader>, :nohlsearch<CR>
 nnoremap <F12> <Esc>:call MakeSession()<CR>
