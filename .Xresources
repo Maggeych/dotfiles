@@ -2,4 +2,4 @@ URxvt*termName:         rxvt-256color
 URxvt.scrollBar: false 
 URxvt.font: xft:agave-10:regular
 URxvt.depth: 16
-#include ".terminalcolors/xresources_light"
+#include ".terminalcolors/xresources_dark"
