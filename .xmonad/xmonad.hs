@@ -42,28 +42,27 @@ import XMonad.Layout.ToggleLayouts
 -- Media keys
 import Graphics.X11.ExtraTypes.XF86
 
--------------------------------------------------------------------------------
--- Main --
+-- Theme
+import YellowTheme
+
 main :: IO ()
 main = do
-  dzenRightBar <- spawnPipe "conky -c ~/.xmonad/.conky_dzen | dzen2 -ta r -w 450 -h 16 -x 1420 -bg '#2E2C28' -fn 'agave:bold:size=10' -y 0"
+  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -ta r -w 450 -h 16 -x 1420 -bg '" ++ color_bar_bg ++ "' -fn 'agave:bold:size=10' -y 0"
   --status <- spawnPipe "dzen2 -w 1720 -h 20 -x 0 -y 0 -ta l -fn 'ubuntu:bold:size=10' -bg '#FFFFFF'"
   --xmonad $ myConfig { logHook =  logHook' status }
   xmonad =<< statusBar cmd pp kb conf
     where
       uhook = withUrgencyHookC NoUrgencyHook urgentConfig
-      cmd = "dzen2 -w 1420 -h 16 -x 0 -y 0 -ta l -fn 'agave:bold:size=10' -bg '#2E2C28'"
+      cmd = "dzen2 -w 1420 -h 16 -x 0 -y 0 -ta l -fn 'agave:bold:size=10' -bg '" ++ color_bar_bg ++ "'"
       pp = customPP
       kb = toggleStrutsKey
       conf = uhook $ ewmh myConfig
 
--------------------------------------------------------------------------------
--- Configs --
 myConfig = defaultConfig { workspaces = workspaces'
                          , modMask = modMask'
-                         , borderWidth = borderWidth'
-                         , normalBorderColor = normalBorderColor'
-                         , focusedBorderColor = focusedBorderColor'
+                         , borderWidth = border_width
+                         , normalBorderColor = color_border_normal
+                         , focusedBorderColor = color_border_focus
                          , terminal = terminal'
                          , keys = keys'
                          , layoutHook = layoutHook'
@@ -72,12 +71,10 @@ myConfig = defaultConfig { workspaces = workspaces'
                          -- , logHook = logHook'
                          }
 
---  logHook' h = dynamicLogWithPP $ customPP { ppOutput = hPutStrLn h }
 logHook' = fadeInactiveLogHook fadeAmount
       where fadeAmount = 0xDDDDDDDD
 
--------------------------------------------------------------------------------
--- Window Management --
+
 manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          --, className =? "MPlayer"   --> doFloat
                          , className =? "Gimp"      --> unfloat
@@ -91,53 +88,37 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 			where unfloat = ask >>= doF . W.sink
 
 
--------------------------------------------------------------------------------
--- Looks --
--- bar
-customPP = defaultPP { ppCurrent = dzenColor "#000000" "#9F8A4B" . pad
-                     , ppVisible = dzenColor "#A3A6AB" "" . pad
-                     , ppHidden = dzenColor "#A3A6AB" "#555555" . pad
-                     , ppHiddenNoWindows = dzenColor "#A3A6AB" "" . pad
-                     , ppUrgent = dzenColor "#000000" "#C7756E" . pad
-                     , ppLayout = dzenColor "#000000" "#9F8A4B" . 
+customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws_active_bg . pad
+                     , ppVisible = dzenColor color_bar_ws_visible_fg color_bar_ws_visible_bg . pad
+                     , ppHidden = dzenColor color_bar_ws_hidden_fg color_bar_ws_hidden_bg . pad
+                     , ppHiddenNoWindows = dzenColor color_bar_ws_hiddennowindows_fg color_bar_ws_hiddennowindows_bg . pad
+                     , ppUrgent = dzenColor color_bar_ws_urgent_fg color_bar_ws_urgent_bg . pad
+                     , ppLayout = dzenColor color_bar_layout_fg color_bar_layout_bg . 
                         (\x -> case x of
                          "tiled"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_tall.xbm) "
                          "accordion"			->	" ^i(/home/maggeych/.xmonad/dzen2/fs_02.xbm) "
                          "grid"				->	" ^i(/home/maggeych/.xmonad/dzen2/grid.xbm) "
                          "full"				->	" ^i(/home/maggeych/.xmonad/dzen2/layout_full.xbm) "
                         )
-                     , ppTitle =  dzenColor "#EEEEEE" "" . shorten 80 .pad
-                     , ppSep = dzenColor "#555555" "" "|"
-                     , ppWsSep = dzenColor "#9F8A4B" "" "|"
+                     , ppTitle =  dzenColor color_bar_title "" . shorten 80 .pad
+                     , ppSep = dzenColor color_bar_sep "" "|"
+                     , ppWsSep = dzenColor color_bar_sep "" "|"
                      }
 
--- GridSelect
 myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 
--- urgent notification
 urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
--- borders
-borderWidth' = 4
--- normalBorderColor'  = "#2E2C28"
--- focusedBorderColor' = "#CFB776"
-normalBorderColor'  = "#f6f1db"
-focusedBorderColor' = "#2E2C28"
-
--- workspaces
 workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
 -- workspaces' = ["1", "2", "3", "4", "5"]
                                                              
--- layouts
 layoutHook' = lessBorders OtherIndicated (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "accordion" accordion ||| named "tiled" tiled))
   where
     grid = space $ Mirror $ GridRatio (9/16)
     accordion = space $ Mirror $ Accordion
     tiled  = space $ ResizableTall 1 (5/100) (1/2) []
-    space = spacing 10
+    space = spacing border_gap
 
--------------------------------------------------------------------------------
--- Terminal --
 terminal' = "urxvt"
 
 -------------------------------------------------------------------------------
@@ -162,6 +143,8 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
 
     -- grid
     , ((modMask,               xK_g     ), goToSelected myGSConfig)
+    -- Lockscreen
+    , ((modMask, xK_0), spawn "slock")
 
     -- layouts
     , ((modMask,               xK_space ), sendMessage NextLayout)
@@ -229,4 +212,3 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
         , (f, m) <- [(W.view, 0), (W.shift, shiftMask)]]
 
 -------------------------------------------------------------------------------
-
