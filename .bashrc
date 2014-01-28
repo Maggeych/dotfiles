@@ -19,3 +19,4 @@ PS1="${OUTLINE}┌─ ‖\[\e[0;37m\]\u${OUTLINE}|\[\e[1;37m\]\h${OUTLINE}‖ [\
 PS2="   └─── "
 export TERM='xterm-256color'
 export EDITOR='vim'
+export _JAVA_AWT_WM_NONREPARENTING=1
