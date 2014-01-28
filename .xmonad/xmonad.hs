@@ -116,9 +116,9 @@ workspaces' = ["misc", "web", "dev", "4", "5", "6", "file", "mail", "music"]
 -- layouts
 layoutHook' = (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide))
   where
-    grid = space $ Mirror $ GridRatio(3/4)
-    tall = space $ ResizableTall 1 (5/100) (1/2) []
-    wide = space $ Mirror $ ResizableTall 1 (5/100) (1/2) []
+    grid = space $ Mirror $ smartBorders $ GridRatio(3/4)
+    tall = space $ smartBorders $ ResizableTall 1 (5/100) (1/2) []
+    wide = space $ smartBorders $ Mirror $ ResizableTall 1 (5/100) (1/2) []
     space = spacing 2
 
 -------------------------------------------------------------------------------
