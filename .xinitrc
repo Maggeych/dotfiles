@@ -9,7 +9,7 @@ firefox &
 thunderbird &
 clementine & 
 thunar &
-# dropboxd &
+dropboxd &
 # exec ck-launch-session dbus-launch xmonad
 devmon &
 exec dbus-launch xmonad
