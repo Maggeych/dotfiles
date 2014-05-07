@@ -78,6 +78,7 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 			 , className =? "Firefox"     --> doShift "web"
 			 , className =? "Thunderbird" --> doShift "mail"
 			 , className =? "Thunar" --> doShift "file"
+			 , className =? "Clementine" --> doShift "music"
 			 , insertPosition Above Newer
 			 , transience'
                          ]
