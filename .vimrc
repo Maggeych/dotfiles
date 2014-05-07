@@ -40,10 +40,11 @@ set scrolloff=3                            " always keep this many lines under c
 set virtualedit=all                        " allow cursor to move beyond last char in a line
 set ssop-=options                          " dont save global or local values in a session
 set ssop-=folds                            " dont save folds in a session
+set cursorline
 filetype plugin indent on                  " detect filetype and load plugins and indents
 syntax on                                  " syntax highlighting on
 set mouse=a
-map <ScrollWheelUp> 6<C-Y>
+map <ScrollWheelUp> 6<C-Y\
 map <ScrollWheelDown> 6<C-E>
 
 " -- colors
@@ -57,6 +58,12 @@ highlight SpecialKey cterm=bold ctermfg=0 guifg=gray
 highlight LineNr cterm=bold ctermfg=0 guifg=gray
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
 let g:NERDTreeWinSize = 25
+
+" -- tex unresponsive fix
+autocmd FileType tex :NoMatchParen
+au FileType tex setlocal nocursorline
+au FileType tex setlocal norelativenumber
+au FileType tex setlocal number
 
 
 " ==============================================================================
