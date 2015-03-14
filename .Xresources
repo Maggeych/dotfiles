@@ -1,5 +1,6 @@
-URxvt*termName:         rxvt-256color
 URxvt.scrollBar: false 
-URxvt.font: xft:agave-10:regular
+URxvt.font: xft:GohuFont-8
+#include ".terminalcolors/xresources_solarized"
+URxvt.intensityStyles: false
 URxvt.depth: 16
-#include ".terminalcolors/xresources_dark"
+URxvt.background: #002b36
