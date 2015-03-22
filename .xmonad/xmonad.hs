@@ -48,11 +48,11 @@ import SolarizedTheme
 
 main :: IO ()
 main = do
-  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 1420 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
+  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 2620 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
   xmonad =<< statusBar cmd pp kb conf
     where
       uhook = withUrgencyHookC NoUrgencyHook urgentConfig
-      cmd = "dzen2 -dock -w 1420 -h 16 -x 0 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
+      cmd = "dzen2 -dock -w 1420 -h 16 -x 1200 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
       pp = customPP
       kb = toggleStrutsKey
       conf = uhook $ ewmh myConfig
