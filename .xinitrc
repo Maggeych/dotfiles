@@ -14,6 +14,5 @@ trayer --edge top --align right --widthtype pixel --width 50 --SetDockType true 
 nm-applet &
 #compton -r 8 -l "-8" -t "-8" -f -c -C -G -D 5 &
 #compton --config ~/.compton.conf &
-unclutter &
 devmon &
 exec xmonad
