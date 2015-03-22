@@ -6,7 +6,7 @@ Config { font = "xft:Termsyn-8:regular"
   , position = TopSize C 100 20 
   , lowerOnStart = True
   , commands = [ 
-      Run Network "wlp0s29u1u2" ["-L", "8", "-H", "32", "-l", "#666666", "-n", "#9C7854", "-h", "#A35861", "-t", "<rx> : <tx>"] 10
+      Run Network "wlp0s26u1u1" ["-L", "8", "-H", "32", "-l", "#666666", "-n", "#9C7854", "-h", "#A35861", "-t", "<rx> : <tx>"] 10
       , Run MultiCpu ["-t", "<autototal>", "-L","3","-H","50","--normal","#666666","--high","#A35861"] 10
       , Run Memory ["-t","<used>M"] 10
       , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
