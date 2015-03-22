@@ -4,16 +4,16 @@ out_to_console yes
 out_to_x no
 # Update interval in seconds
 update_interval 1
-update_interval_on_battery 30
+update_interval_on_battery 1
+own_window_class Conky
  
 # ^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_music.sh)$if_mpd_playing^fg(\#A3A6AB)^i(/home/maggeych/.xmonad/dzen2/note.xbm) ^fg(\#000000)${mpd_artist}   ^ca()\
 # ^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_network.sh)   ^fg(\#A3A6AB)${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh} ^fg(\#000000)${wireless_essid wlan0}   ^ca()\
 # ^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_log.sh)^fg(\#A3A6AB)   ^i(/home/maggeych/.xmonad/dzen2/info_03.xbm)   ^ca()\
 TEXT
-^fg(\#A3A6AB)${downspeed wlp3s0}\
-^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_network.sh)^fg(\#A3A6AB)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh} ^fg(\#A3A6AB)${wireless_essid wlp3s0}^ca()\
-^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_hardware.sh)^fg(\#A3A6AB)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_ram.sh}^ca()\
-^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_vol.sh)^fg(\#A3A6AB)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_vol.sh}^ca()\
-^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_battery.sh)^fg(\#A3A6AB)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_battery.sh}^ca()\
-^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_date.sh)^fg(\#A3A6AB)   ^i(/home/maggeych/.xmonad/dzen2/clock.xbm) ^fg(\#A3A6AB)${time %I:%M %P}^ca()
+^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh} ^fg(\#002b36)${wireless_essid wlp3s0}\
+^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_ram.sh}\
+^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_vol.sh}\
+^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_battery.sh}\
+^fg(\#002b36)   ^i(/home/maggeych/.xmonad/dzen2/clock.xbm) ^fg(\#002b36)${time %I:%M %P}
 
