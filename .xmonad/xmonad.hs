@@ -45,10 +45,14 @@ import Graphics.X11.ExtraTypes.XF86
 -------------------------------------------------------------------------------
 -- Main --
 main :: IO ()
-main = xmonad =<< statusBar cmd pp kb conf
+main = do
+  dzenRightBar <- spawnPipe "conky -c ~/.xmonad/.conky_dzen | dzen2 -ta r -w 450 -h 16 -x 1420 -bg '#2E2C28' -fn 'agave:bold:size=10' -y 0"
+  --status <- spawnPipe "dzen2 -w 1720 -h 20 -x 0 -y 0 -ta l -fn 'ubuntu:bold:size=10' -bg '#FFFFFF'"
+  --xmonad $ myConfig { logHook =  logHook' status }
+  xmonad =<< statusBar cmd pp kb conf
     where
       uhook = withUrgencyHookC NoUrgencyHook urgentConfig
-      cmd = "bash -c \"tee >(xmobar -x0) | xmobar -x1\""
+      cmd = "dzen2 -w 1420 -h 16 -x 0 -y 0 -ta l -fn 'agave:bold:size=10' -bg '#2E2C28'"
       pp = customPP
       kb = toggleStrutsKey
       conf = uhook $ ewmh myConfig
@@ -64,6 +68,7 @@ myConfig = defaultConfig { workspaces = workspaces'
                          , keys = keys'
                          , layoutHook = layoutHook'
                          , manageHook = manageHook'
+                         -- , logHook = logHook'
                          }
 
 logHook' = fadeInactiveLogHook fadeAmount
@@ -75,9 +80,9 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          --, className =? "MPlayer"   --> doFloat
                          , className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
-			 , className =? "Firefox"     --> doShift "web"
-			 , className =? "Thunderbird" --> doShift "mail"
-			 , className =? "Thunar" --> doShift "file"
+			 , className =? "Firefox"     --> doShift "^i(/home/maggeych/.xmonad/dzen2/www.xbm)"
+			 , className =? "Thunderbird" --> doShift "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"
+			 , className =? "Thunar" --> doShift "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)"
 			 , className =? "Clementine" --> doShift "music"
 			 , insertPosition Above Newer
 			 , transience'
@@ -88,14 +93,21 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
 -------------------------------------------------------------------------------
 -- Looks --
 -- bar
-customPP = defaultPP { ppCurrent = xmobarColor "#58C1F5" "" . wrap "<" ">"
-                     , ppVisible = xmobarColor "#58C1F5" ""
-                     , ppHidden = xmobarColor "#888888" ""
-                     , ppHiddenNoWindows = xmobarColor "#686964" ""
-                     , ppUrgent = xmobarColor "#25DB4F" "" . wrap "[" "]"
-                     , ppLayout = xmobarColor "#58C1F5" ""
-                     , ppTitle = xmobarColor "#ED3764" "" . shorten 80
-                     , ppSep = xmobarColor "#666666" "" " | "
+customPP = defaultPP { ppCurrent = dzenColor "#000000" "#9F8A4B" . pad
+                     , ppVisible = dzenColor "#A3A6AB" "" . pad
+                     , ppHidden = dzenColor "#A3A6AB" "#555555" . pad
+                     , ppHiddenNoWindows = dzenColor "#A3A6AB" "" . pad
+                     , ppUrgent = dzenColor "#000000" "#C7756E" . pad
+                     , ppLayout = dzenColor "#000000" "#9F8A4B" . 
+                        (\x -> case x of
+                         "tiled"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_tall.xbm) "
+                         "accordion"			->	" ^i(/home/maggeych/.xmonad/dzen2/fs_02.xbm) "
+                         "grid"				->	" ^i(/home/maggeych/.xmonad/dzen2/grid.xbm) "
+                         "full"				->	" ^i(/home/maggeych/.xmonad/dzen2/layout_full.xbm) "
+                        )
+                     , ppTitle =  dzenColor "#EEEEEE" "" . shorten 80 .pad
+                     , ppSep = dzenColor "#555555" "" "|"
+                     , ppWsSep = dzenColor "#9F8A4B" "" "|"
                      }
 
 -- GridSelect
@@ -105,22 +117,23 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 
 -- borders
-borderWidth' = 3
+borderWidth' = 4
 -- normalBorderColor'  = "#2E2C28"
 -- focusedBorderColor' = "#CFB776"
-normalBorderColor'  = "#000000"
-focusedBorderColor' = "#58C1F5"
+normalBorderColor'  = "#f6f1db"
+focusedBorderColor' = "#2E2C28"
 
 -- workspaces
-workspaces' = ["misc", "web", "dev", "4", "5", "6", "file", "mail", "music"]
+workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
+-- workspaces' = ["1", "2", "3", "4", "5"]
                                                              
 -- layouts
-layoutHook' = (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide))
+layoutHook' = lessBorders OtherIndicated (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "accordion" accordion ||| named "tiled" tiled))
   where
-    grid = space $ Mirror $ smartBorders $ GridRatio(3/4)
-    tall = space $ smartBorders $ ResizableTall 1 (5/100) (1/2) []
-    wide = space $ smartBorders $ Mirror $ ResizableTall 1 (5/100) (1/2) []
-    space = spacing 2
+    grid = space $ Mirror $ GridRatio (9/16)
+    accordion = space $ Mirror $ Accordion
+    tiled  = space $ ResizableTall 1 (5/100) (1/2) []
+    space = spacing 10
 
 -------------------------------------------------------------------------------
 -- Terminal --
@@ -177,6 +190,19 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     -- increase or decrease number of windows in the master area
     , ((modMask              , xK_comma ), sendMessage (IncMasterN 1))
     , ((modMask              , xK_period), sendMessage (IncMasterN (-1)))
+
+    -- Keyboard backlight
+    , ((0,               xF86XK_KbdBrightnessUp), spawn "kbdbacklight up")
+    , ((0,               xF86XK_KbdBrightnessDown), spawn "kbdbacklight down")
+
+    -- Monitor backlight
+    , ((0,               xF86XK_MonBrightnessUp), spawn "showbrightness")
+    , ((0,               xF86XK_MonBrightnessDown), spawn "showbrightness")
+
+    -- Volume control
+    , ((0,               xF86XK_AudioRaiseVolume), spawn "volumectl raise")
+    , ((0,               xF86XK_AudioLowerVolume), spawn "volumectl lower")
+    , ((0,               xF86XK_AudioMute), spawn "volumectl mute")
 
     -- resizing
     , ((modMask,               xK_h     ), sendMessage Shrink)
