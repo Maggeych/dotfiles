@@ -47,6 +47,9 @@ set mouse=a
 map <ScrollWheelUp> 6<C-Y\
 map <ScrollWheelDown> 6<C-E>
 
+let g:tagbar_compact = 1
+let g:tagbar_autofocus = 1
+
 " -- colors
 set t_Co=256
 "set t_AB=[48;5;%dm
@@ -56,7 +59,7 @@ color kolor
 highlight NonText cterm=bold ctermfg=0 guifg=gray
 highlight SpecialKey cterm=bold ctermfg=0 guifg=gray
 highlight LineNr cterm=bold ctermfg=0 guifg=gray
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 let g:NERDTreeWinSize = 25
 
 " -- tex unresponsive fix
@@ -99,6 +102,20 @@ function! LoadSession()
   endif
 endfunction
 
+function! InitCMake()
+  if argc() == 0
+    let b:sessiondir = getcwd()
+    let b:cmakelistsfile = b:sessiondir . "/CMakeLists.txt"
+    echo b:cmakelistsfile
+    if (filereadable(b:cmakelistsfile))
+      let g:cmakebuilddir = fnamemodify('.', ':p:h') . ".build"
+      if (isdirectory(g:cmakebuilddir))
+        let &makeprg="make\ -C\ " . g:cmakebuilddir
+      endif
+    endif
+  endif
+endfunction
+
 " ==============================================================================
 " -- hotkeys
 " ==============================================================================
@@ -123,6 +140,10 @@ inoremap <C-Space> <C-R>=delimitMate#JumpAny("\<C-Space>")<CR>
 nnoremap n :tabnew<CR>
 " Alt-q
 nnoremap q :tabclose<CR>
+" Alt-t
+nnoremap t :CommandT<CR>
+" Alt-t 
+inoremap t <Esc>:CommandT<CR>
 nnoremap <F7> :tabprevious<CR>
 nnoremap <F8> :tabnext<CR>
 inoremap <F7> <Esc>:tabprevious<CR>
@@ -131,9 +152,13 @@ nnoremap <silent> <C-F7> :execute 'silent! tabmove ' . (tabpagenr()-2)<CR>
 nnoremap <silent> <C-F8> :execute 'silent! tabmove ' . tabpagenr()<CR>
 nnoremap <F9> :NERDTreeToggle<CR>
 inoremap <F9> <Esc>:NERDTreeToggle<CR>
+nnoremap <F10> :TagbarToggle<CR><C-w>l
+inoremap <F10> <Esc>:TagbarToggle<CR><C-w>l
 " clear highlighted word
 nnoremap <silent> <leader>, :nohlsearch<CR>
 nnoremap <F12> <Esc>:call MakeSession()<CR>
+
+map <F5> :!cscope -b<CR>:cs reset<CR><CR>  
 
 "" Toggle between .h and .cpp with F4.
 function! ToggleBetweenHeaderAndSourceFile()
@@ -162,10 +187,15 @@ map <silent> <F4> :call ToggleBetweenHeaderAndSourceFile()<CR>
 
 
 
+function InitFct()
+  call LoadSession()
+  call InitCMake()
+endfunction
 
 " ------------------------------------------------------------------------------
 if has('autocmd')
-  autocmd VimEnter * nested :call LoadSession()
+  autocmd VimEnter * nested :call InitFct()
+  " autocmd VimEnter * NERDTree
   autocmd VimLeave * nested :call UpdateSession()
   autocmd! BufNewFile,BufRead *.pde setlocal ft=arduino
   autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
