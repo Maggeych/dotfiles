@@ -118,7 +118,7 @@ let g:NERDTreeWinSize = 25                 " NERDTree size
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && 
       \ b:NERDTreeType == "primary") | q | endif
 
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]  " Where to look for snippets
+" let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]  " Where to look for snippets
 
 let delimitMate_expand_cr = 1
 
@@ -237,6 +237,10 @@ nnoremap 'h :FufFile $HOME/<cr>
 nnoremap 'k :FufBuffer<cr>
 nnoremap 'd :FufDir<cr>
 
+" UltiSnips
+let g:UltiSnipsExpandTrigger="<c-@>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+
 " filetype specific {{{1
 " ==============================================================================
 "
@@ -245,6 +249,7 @@ if has('autocmd')
   autocmd! BufNewFile,BufRead *.ino setlocal ft=arduino
   autocmd filetype c,cpp,arduino call FtCSettings()
   autocmd filetype vim,sh call ShSettings()
+  autocmd filetype tex call TexSettings()
 endif
 
 function FtCSettings()
@@ -258,4 +263,13 @@ endfunction
 function ShSettings()
   set foldmethod=marker  "use marker folding
   execute "normal! zM"
+endfunction
+
+function TexSettings()
+  " wrap text but only insert linebreaks when explicitly entered
+  :set wrap
+  :set linebreak
+  :set nolist  " list disables linebreak
+  :set textwidth=0
+  :set wrapmargin=0
 endfunction
