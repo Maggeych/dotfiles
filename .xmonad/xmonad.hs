@@ -73,7 +73,7 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          , className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
 			 , className =? "Firefox"     --> doShift "web"
-			 , className =? "Thunderbird" --> doShift "web"
+			 , className =? "Thunderbird" --> doShift "mail"
 			 , className =? "Thunar" --> doShift "file"
 			 , className =? "Clementine" --> doShift "music"
 			 , insertPosition Above Newer
@@ -106,7 +106,7 @@ urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
 workspaces' = ["misc", "web", "dev", "4", "5", "6", "file", "mail", "music"]
                                                              
 layoutHook' = lessBorders OtherIndicated (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tiled" tiled)) where
-    grid = space $ Mirror $ GridRatio (9/16)
+    grid = space $ Mirror $ Grid
     tiled  = space $ ResizableTall 1 (5/100) (1/2) []
     space = spacing border_gap
 
@@ -131,8 +131,8 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_p     ), spawn "dmenu_run -b -p 'Run'") 
     , ((modMask .|. shiftMask, xK_m     ), spawn "thunderbird")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "dwb")
-    , ((modMask .|. shiftMask, xK_f), spawn "env TERMCMD=\"urxvt\" EDITOR=\"vim\" urxvt -name ranger -e ranger")
+    , ((modMask, xK_o), spawn "firefox")
+    , ((modMask .|. shiftMask, xK_f), spawn "thunar")
     , ((modMask, xK_f), sendMessage ToggleStruts >> sendMessage ToggleLayout)
 
     -- grid
