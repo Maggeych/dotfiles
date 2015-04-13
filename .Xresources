@@ -1,5 +1,5 @@
 URxvt.scrollBar: false 
-URxvt.font: xft:GohuFont-8
+URxvt.font: xft:GohuFont-10
 #include ".terminalcolors/xresources_solarized"
 URxvt.intensityStyles: false
 URxvt.depth: 16
