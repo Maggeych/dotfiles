@@ -270,4 +270,6 @@ function TexSettings()
   :set nolist  " list disables linebreak
   :set textwidth=0
   :set wrapmargin=0
+  :set norelativenumber
+  :set nocursorline
 endfunction
