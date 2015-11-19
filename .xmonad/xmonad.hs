@@ -13,6 +13,7 @@ import qualified Data.Map as M
 import System.Exit
 import XMonad.Util.Run ( spawnPipe )
 -- import System.IO ( hPutStrLn )
+import Data.List -- for isSuffixOf
 -- 
 -- -- actions
 import XMonad.Actions.GridSelect
@@ -48,10 +49,10 @@ import SolarizedTheme
 
 main :: IO ()
 main = do
-  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 2620 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
+  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 3020 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
   xmonad =<< statusBar cmd customPP toggleStrutsKey myConfig
     where
-      cmd = "dzen2 -dock -w 1420 -h 16 -x 1200 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
+      cmd = "dzen2 -dock -w 1420 -h 16 -x 1600 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
 
 myConfig = defaultConfig { workspaces = workspaces'
                          , modMask = modMask'
@@ -66,16 +67,17 @@ myConfig = defaultConfig { workspaces = workspaces'
 
 manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          --, className =? "MPlayer"   --> doFloat
-                         , className =? "Gimp"      --> unfloat
+                         --, className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
 			 , className =? "Firefox"     --> doShift "web"
 			 , className =? "Thunderbird" --> doShift "mail"
 			 , className =? "Thunar" --> doShift "file"
 			 , className =? "Clementine" --> doShift "music"
+			 , (className =? "gimp" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat
 			 , insertPosition Above Newer
 			 , transience'
                          ]
-			where unfloat = ask >>= doF . W.sink
+			where {unfloat = ask >>= doF . W.sink; role = stringProperty "WM_WINDOW_ROLE";}
 
 
 customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws_active_bg . wrap " " " "
