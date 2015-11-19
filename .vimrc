@@ -109,6 +109,8 @@ function FoldColorSchemeChanges()              " custom changes to the colorsche
 endfunction
 call FoldColorSchemeChanges()                  " apply the colorscheme changes
 
+
+
 " vim plugins {{{1
 " ==============================================================================
 let g:NERDTreeWinSize = 25                 " NERDTree size
@@ -116,11 +118,14 @@ let g:NERDTreeWinSize = 25                 " NERDTree size
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && 
       \ b:NERDTreeType == "primary") | q | endif
 
-" let g:UltiSnipsSnippetDirectories=["UltiSnips", "snippets"]  " Where to look for snippets
 
 let delimitMate_expand_cr = 1
 
 let g:SuperTabCrMapping = 0
+
+let g:snips_author="Markus Frey"
+let g:snips_location="Freiburg"
+let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/snippets/"]  " Where to look for snippets
 
 " functions {{{1
 " ==============================================================================
@@ -128,6 +133,14 @@ let g:SuperTabCrMapping = 0
 function! ToggleBetweenHeaderAndSourceFile()
   let bufname = bufname("%")
   let ext = fnamemodify(bufname, ":e")
+  let seperateIncDir = 0
+  if split(bufname, '/')[0] == "include"
+    let bufname = substitute(bufname("%"), 'include', 'src', '')
+  elseif split(bufname, '/')[0] == "src"
+    if (filereadable(fnamemodify(bufname, ":r") . "." . "h") == 0)
+      let bufname = substitute(bufname("%"), 'src', 'include', '')
+    endif
+  endif
   if ext == "h"
     if (filereadable(fnamemodify(bufname, ":r") . "." . "cu"))
       let ext = "cu"
@@ -147,6 +160,28 @@ function! ToggleBetweenHeaderAndSourceFile()
     execute ":e " . bufname_new
   endif
 endfunction
+" function! ToggleBetweenHeaderAndSourceFile()
+"   let bufname = bufname("%")
+"   let ext = fnamemodify(bufname, ":e")
+"   if ext == "h"
+"     if (filereadable(fnamemodify(bufname, ":r") . "." . "cu"))
+"       let ext = "cu"
+"     else
+"       let ext = "cpp"
+"     endif
+"   elseif ext == "cpp" || ext == "cu"
+"     let ext = "h"
+"   else
+"     return
+"   endif
+"   let bufname_new = fnamemodify(bufname, ":r") . "." . ext
+"   let bufname_alt = bufname("#")
+"   if bufname_new == bufname_alt
+"     execute ":e#"
+"   else
+"     execute ":e " . bufname_new
+"   endif
+" endfunction
 
 " Fill the current line to 80 with the given character
 com -nargs=1 FillLine call FillLine(<f-args>)
@@ -230,7 +265,7 @@ nnoremap <S-k> :execute "normal! d$:" . (line(".") - 1) ."put\<lt>CR>"<CR>
 " toggle eog and tab visualization
 noremap <leader>p :set list!<CR>
 
-nnoremap 'f :FufFile<cr>
+nnoremap 'f :FufCoverageFile<cr>
 nnoremap 'h :FufFile $HOME/<cr>
 nnoremap 'k :FufBuffer<cr>
 nnoremap 'd :FufDir<cr>
@@ -270,6 +305,4 @@ function TexSettings()
   :set nolist  " list disables linebreak
   :set textwidth=0
   :set wrapmargin=0
-  :set norelativenumber
-  :set nocursorline
 endfunction
