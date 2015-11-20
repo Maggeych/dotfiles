@@ -271,7 +271,7 @@ nnoremap 'k :FufBuffer<cr>
 nnoremap 'd :FufDir<cr>
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<c-@>"
+let g:UltiSnipsExpandTrigger="<C-@>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 
 " filetype specific {{{1
