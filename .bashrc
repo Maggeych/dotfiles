@@ -30,3 +30,19 @@ PS1="\n\[\033[1;96m\]\u@\h\[\033[0m\]:\w\[\033[1;96m\]\n\[\033[1;0m\]$ \[\033[0m
   fortune -n 140
   echo -e "\033[0m"
 #fi
+
+# ROS {{{1
+# ==============================================================================
+indigo() {
+  source /opt/ros/indigo/setup.bash
+  # export ROS_PACKAGE_PATH=/path/to/your/your/package/path:$ROS_PACKAGE_PATH
+  export PYTHONPATH=/opt/ros/indigo/lib/python2.7/site-packages:$PYTHONPATH
+  export PKG_CONFIG_PATH="/opt/ros/indigo/lib/pkgconfig:$PKG_CONFIG_PATH"
+  export ROS_HOSTNAME="localhost"
+  export ROS_MASTER_URI="http://localhost:11311"
+  alias python=/usr/bin/python2
+  alias catkin_make='catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so'
+
+  # # Gazebo
+  # source /usr/share/gazebo/setup.sh
+}
