@@ -121,11 +121,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&
 
 let delimitMate_expand_cr = 1
 
-let g:SuperTabCrMapping = 0
-
 let g:snips_author="Markus Frey"
 let g:snips_location="Freiburg"
 let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/snippets/"]  " Where to look for snippets
+" let g:ycm_enable_diagnostic_signs=0
+" let g:ycm_enable_diagnostic_highlighting=0
 
 " functions {{{1
 " ==============================================================================
@@ -252,9 +252,9 @@ nnoremap <F5> :ToggleBG<CR>:call FoldColorSchemeChanges()<CR>
 inoremap <F5> :ToggleBG<CR>:call FoldColorSchemeChanges()<CR>
 vnoremap <F5> :ToggleBG<CR>:call FoldColorSchemeChanges()
 
-" move over closing delimiter with Ctrl-Space
-inoremap <C-@> <C-R>=delimitMate#JumpAny("\<C-@>")<CR>
-inoremap <C-Space> <C-R>=delimitMate#JumpAny("\<C-Space>")<CR>
+" " move over closing delimiter with Ctrl-Space
+" inoremap <C-@> <C-R>=delimitMate#JumpAny("\<C-@>")<CR>
+" inoremap <C-Space> <C-R>=delimitMate#JumpAny("\<C-Space>")<CR>
 
 " fill current line with =
 inoremap = <Esc>:FillLine =<CR>
@@ -270,9 +270,14 @@ nnoremap 'h :FufFile $HOME/<cr>
 nnoremap 'k :FufBuffer<cr>
 nnoremap 'd :FufDir<cr>
 
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
+
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<C-@>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsExpandTrigger="<NUL>"
+" let g:UltiSnipsJumpForwardTrigger=""
+" let g:UltiSnipsJumpBackwardTrigger=""
+" let g:UltiSnipsJumpForwardTrigger="<c-n>"
 
 " filetype specific {{{1
 " ==============================================================================
@@ -291,6 +296,7 @@ function FtCSettings()
   autocmd BufEnter *.cpp,*.h,*.ino,*.pde set foldmethod=indent
   autocmd BufWritePre *.cpp :%s/\s\+$//e   " delete unneccesary whitespaces on save
   autocmd BufWritePre *.h :%s/\s\+$//e     " delete unneccesary whitespaces on save
+  let &path.="include"  " so gf finds files
 endfunction
 
 function ShSettings()
