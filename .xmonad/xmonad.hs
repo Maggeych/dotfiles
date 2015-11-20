@@ -12,11 +12,12 @@ import qualified XMonad.StackSet as W
 import qualified Data.Map as M
 import System.Exit
 import XMonad.Util.Run ( spawnPipe )
-import System.IO ( hPutStrLn )
-
--- actions
+-- import System.IO ( hPutStrLn )
+import Data.List -- for isSuffixOf
+-- 
+-- -- actions
 import XMonad.Actions.GridSelect
-
+-- 
 -- hooks
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers
@@ -49,13 +50,9 @@ import SolarizedTheme
 main :: IO ()
 main = do
   dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 1420 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
-  xmonad =<< statusBar cmd pp kb conf
+  xmonad =<< statusBar cmd customPP toggleStrutsKey myConfig
     where
-      uhook = withUrgencyHookC NoUrgencyHook urgentConfig
       cmd = "dzen2 -dock -w 1420 -h 16 -x 0 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
-      pp = customPP
-      kb = toggleStrutsKey
-      conf = uhook $ ewmh myConfig
 
 myConfig = defaultConfig { workspaces = workspaces'
                          , modMask = modMask'
@@ -65,23 +62,25 @@ myConfig = defaultConfig { workspaces = workspaces'
                          , terminal = terminal'
                          , keys = keys'
                          , layoutHook = layoutHook'
-                         -- , startupHook= setWMName "LG3D"  -- minecraft wont resize according to the window without this
                          , manageHook = manageHook'
                          }
 
-
-manageHook' = composeAll [ isFullscreen             --> doFullFloat
-                         --, className =? "MPlayer"   --> doFloat
-                         , className =? "Gimp"      --> unfloat
-                         --, className =? "Vlc"       --> doFloat
-			 , className =? "Firefox"     --> doShift "web"
-			 , className =? "Dwb"     --> doShift "web"
-			 , className =? "Thunderbird" --> doShift "mail"
-			 , resource =? "ranger" --> doShift "file"
-			 , insertPosition Above Newer
-			 , transience'
-                         ]
-			where unfloat = ask >>= doF . W.sink
+manageHook' = composeAll [
+  isFullscreen --> doFullFloat
+  --, className =? "MPlayer"   --> doFloat
+  --, className =? "Gimp" --> unfloat
+  --, className =? "Vlc"       --> doFloat
+	, className =? "Firefox" --> doShift "web"
+	, className =? "Thunderbird" --> doShift "mail"
+	, className =? "Thunar" --> doShift "file"
+	, className =? "Spotify" --> doShift "music"
+	, className =? "Clementine" --> doShift "music"
+	, (className =? "Gimp" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat
+	, insertPosition Above Newer
+	, transience'
+  ] 
+  where {unfloat = ask >>= doF . W.sink ;
+	      role = stringProperty "WM_WINDOW_ROLE"}
 
 
 customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws_active_bg . wrap " " " "
@@ -91,7 +90,8 @@ customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws
                      , ppUrgent = dzenColor color_bar_ws_urgent_fg color_bar_ws_urgent_bg . wrap "<" ">"
                      , ppLayout = dzenColor color_bar_layout_fg color_bar_layout_bg . 
                         (\x -> case x of
-                         "tiled"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_tall.xbm) "
+                         "tall"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_tall.xbm) "
+                         "wide"	->	" ^i(/home/maggeych/.xmonad/dzen2/layout_mirror_tall.xbm) "
                          "grid"				->	" ^i(/home/maggeych/.xmonad/dzen2/grid.xbm) "
                          "full"				->	" ^i(/home/maggeych/.xmonad/dzen2/layout_full.xbm) "
                         )
@@ -102,14 +102,13 @@ customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws
 
 myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 
-urgentConfig = UrgencyConfig { suppressWhen = Focused, remindWhen = Dont }
-
 --workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
-workspaces' = ["misc", "web", "dev", "file", "mail"]
+workspaces' = ["misc", "web", "dev", "file", "mail", "music"]
                                                              
-layoutHook' = lessBorders OtherIndicated (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tiled" tiled)) where
-    grid = space $ Mirror $ GridRatio (9/16)
-    tiled  = space $ ResizableTall 1 (5/100) (1/2) []
+layoutHook' = lessBorders OtherIndicated (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
+    grid = space $ Mirror $ smartBorders $ Mirror $ GridRatio(2/2)
+    tall = space $ smartBorders $ ResizableTall 1 (5/100) (1/2) []
+    wide = space $ smartBorders $ Mirror $ ResizableTall 1 (5/100) (1/2) []
     space = spacing border_gap
 
 terminal' = "urxvt"
@@ -133,8 +132,8 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_p     ), spawn "dmenu_run -b -p 'Run'") 
     , ((modMask .|. shiftMask, xK_m     ), spawn "thunderbird")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "dwb")
-    , ((modMask .|. shiftMask, xK_f), spawn "env TERMCMD=\"urxvt\" EDITOR=\"vim\" urxvt -name ranger -e ranger")
+    , ((modMask, xK_o), spawn "firefox")
+    , ((modMask .|. shiftMask, xK_f), spawn "thunar")
     , ((modMask, xK_f), sendMessage ToggleStruts >> sendMessage ToggleLayout)
 
     -- grid

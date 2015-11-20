@@ -24,12 +24,12 @@ color_bar_ws_urgent_fg = "#002b36"
 color_bar_ws_urgent_bg = "#cb4b16"
 
 -- borders
-border_gap = 0 :: Int
+border_gap = 2 :: Int
 border_width = 3 :: Dimension
 color_border_normal = "#002b36"
 color_border_focus = "#cb4b16"
 
 -- fonts
-font_bar = "GohuFont:regular:size=8"
+font_bar = "Ubuntu:regular:size=8"
 ------------------------------------------------------------------------------
 
