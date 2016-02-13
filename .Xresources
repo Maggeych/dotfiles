@@ -1,4 +1,5 @@
 URxvt.scrollBar: false 
+!URxvt.font: xft:ProggyCleanTT CE:style=Book:antialias=false:size=12
 URxvt.font: xft:DejaVu Sans Mono:style=Book:antialias=false:size=12
 #include ".terminalcolors/xresources_solarized"
 URxvt.intensityStyles: false
