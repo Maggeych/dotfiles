@@ -79,7 +79,8 @@ set fillchars="fold: "                     " dont print filling characters on a 
 set nolist                                 " list is toggled with a hotkey
 set listchars=tab:>-,eol:¬                 " special characters for list
 
-colorscheme solarized                      " use solarized
+let base16colorspace=256 
+colorscheme base16-atelierforest           " use atelierforest
 set background=dark                        " use the dark flavour
 function FoldColorSchemeChanges()              " custom changes to the colorscheme regarding folding
   function! MyFoldText()
