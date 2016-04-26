@@ -2,6 +2,7 @@
 " ==============================================================================
 set nocompatible
 
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 set hidden                                 " dont close buffers, hide them
