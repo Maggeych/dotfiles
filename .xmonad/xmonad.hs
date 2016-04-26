@@ -33,6 +33,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Spacing
+import XMonad.Layout.Gaps
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.Grid
 import XMonad.Layout.Accordion
@@ -45,14 +46,14 @@ import XMonad.Layout.ToggleLayouts
 import Graphics.X11.ExtraTypes.XF86
 
 -- Theme
-import SolarizedTheme
+import FlatPlatTheme
 
 main :: IO ()
 main = do
-  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 1420 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
+  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 1420 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 3"
   xmonad =<< statusBar cmd customPP toggleStrutsKey myConfig
     where
-      cmd = "dzen2 -dock -w 1420 -h 16 -x 0 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
+      cmd = "dzen2 -dock -w 1418 -h 17 -x 2 -y 2 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
 
 myConfig = defaultConfig { workspaces = workspaces'
                          , modMask = modMask'
@@ -70,12 +71,13 @@ manageHook' = composeAll [
   --, className =? "MPlayer"   --> doFloat
   --, className =? "Gimp" --> unfloat
   --, className =? "Vlc"       --> doFloat
-	, className =? "Firefox" --> doShift "web"
-	, className =? "Thunderbird" --> doShift "mail"
-	, className =? "Thunar" --> doShift "file"
-	, className =? "Spotify" --> doShift "music"
-	, className =? "Clementine" --> doShift "music"
+	, className =? "chromium" --> doShift " 2 "
+	, className =? "Thunderbird" --> doShift " 6 "
+	, className =? "Thunar" --> doShift " 1 "
+	, className =? "spotify" --> doShift " 5 "
+	, className =? "Clementine" --> doShift " 5 "
 	, (className =? "Gimp" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat
+	, className =? "VBoxSDL" --> doFloat
 	, insertPosition Above Newer
 	, transience'
   ] 
@@ -96,22 +98,23 @@ customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws
                          "full"				->	" ^i(/home/maggeych/.xmonad/dzen2/layout_full.xbm) "
                         )
                      , ppTitle =  dzenColor color_bar_title "" . shorten 80 . pad
-                     , ppSep = dzenColor color_bar_sep "" "|"
+                     , ppSep = dzenColor color_bar_sep "" "  "
                      , ppWsSep = dzenColor color_bar_sep "" ""
                      }
 
 myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 
 --workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
-workspaces' = ["misc", "web", "dev", "file", "mail", "music"]
+workspaces' = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 "]
                                                              
-layoutHook' = lessBorders OtherIndicated (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
-    grid = space $ Mirror $ smartBorders $ Mirror $ GridRatio(2/2)
-    tall = space $ smartBorders $ ResizableTall 1 (5/100) (1/2) []
-    wide = space $ smartBorders $ Mirror $ ResizableTall 1 (5/100) (1/2) []
+layoutHook' = (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
+    grid = space $ Mirror $ Mirror $ gap $ GridRatio(2/2)
+    tall = space $ gap $ ResizableTall 1 (5/100) (1/2) []
+    wide = space $ Mirror $ gap $ ResizableTall 1 (5/100) (1/2) []
     space = spacing border_gap
+    gap = gaps [(U,border_gap),(D,border_gap),(L,border_gap),(R,border_gap)] 
 
-terminal' = "urxvt"
+terminal' = "urxvtc"
 
 -------------------------------------------------------------------------------
 -- Keys/Button bindings --
@@ -132,7 +135,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_p     ), spawn "dmenu_run -b -p 'Run'") 
     , ((modMask .|. shiftMask, xK_m     ), spawn "thunderbird")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "firefox")
+    , ((modMask, xK_o), spawn "chromium")
     , ((modMask .|. shiftMask, xK_f), spawn "thunar")
     , ((modMask, xK_f), sendMessage ToggleStruts >> sendMessage ToggleLayout)
 

@@ -28,5 +28,8 @@ border_gap = 10 :: Int
 border_width = 5 :: Dimension
 color_border_normal = "#2E2C28"
 color_border_focus = "#CFB776"
+
+-- fonts
+font_bar = "Ubuntu:regular:size=8"
 ------------------------------------------------------------------------------
 

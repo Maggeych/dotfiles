@@ -28,5 +28,8 @@ border_gap = 0 :: Int
 border_width = 4 :: Dimension
 color_border_normal = "#000000"
 color_border_focus = "#EEE78C"
+
+-- fonts
+font_bar = "xft:DejaVu Sans Mono:style=Book:antialias=false:size=8"
 ------------------------------------------------------------------------------
 

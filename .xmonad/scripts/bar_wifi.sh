@@ -23,4 +23,4 @@ elif [[ $PERC -lt 101 ]]; then
 fi
 
 ICON='^i(/home/maggeych/.xmonad/dzen2/'"$ICON)"
-echo "$color$ICON"
+echo "$ICON $PERC"

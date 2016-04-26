@@ -15,4 +15,4 @@ else
 fi
 
 ICON='^i(/home/maggeych/.xmonad/dzen2/'"$ICON)"
-echo "$ICON (${USED}/$MAX)"
+echo "$ICON ${PERC}"

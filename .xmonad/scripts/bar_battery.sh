@@ -54,4 +54,4 @@ if [[ $STATUS != "Discharging" ]]; then
 fi
 #color=""
 ICON='^i(/home/maggeych/.xmonad/dzen2/'"$ICON)"
-echo "$color$ICON $BATBAR"
+echo "$color$ICON $BAT"

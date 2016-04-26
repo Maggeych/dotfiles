@@ -11,9 +11,9 @@ own_window_class Conky
 # ^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_network.sh)   ^fg(\#A3A6AB)${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh} ^fg(\#000000)${wireless_essid wlan0}   ^ca()\
 # ^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_log.sh)^fg(\#A3A6AB)   ^i(/home/maggeych/.xmonad/dzen2/info_03.xbm)   ^ca()\
 TEXT
-^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh} ^fg(\#002b36)${wireless_essid wlp3s0}\
-^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_ram.sh}\
-^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_vol.sh}\
-^fg(\#002b36)   ${execi 2 /home/maggeych/.xmonad/scripts/bar_battery.sh}\
-^fg(\#002b36)   ^i(/home/maggeych/.xmonad/dzen2/clock.xbm) ^fg(\#002b36)${time %I:%M %P}
+^fg(\#bbbbbb)${wireless_essid wlp3s0}   ^fg(\#68615e)${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh}\
+   ${execi 2 /home/maggeych/.xmonad/scripts/bar_ram.sh}\
+   ${execi 2 /home/maggeych/.xmonad/scripts/bar_vol.sh}\
+   ${execi 2 /home/maggeych/.xmonad/scripts/bar_battery.sh}\
+   ^i(/home/maggeych/.xmonad/dzen2/clock.xbm) ${time %I:%M %P}
 
