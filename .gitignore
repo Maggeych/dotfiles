@@ -4,3 +4,4 @@
 *.errors
 */xmonad-x86_64-linux
 */dwb/default
+.vim/.netrwhist
