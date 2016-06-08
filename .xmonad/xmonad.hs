@@ -49,10 +49,10 @@ import SolarizedTheme
 
 main :: IO ()
 main = do
-  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 3020 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
+  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 2520 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
   xmonad =<< statusBar cmd customPP toggleStrutsKey myConfig
     where
-      cmd = "dzen2 -dock -w 1420 -h 16 -x 1600 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
+      cmd = "dzen2 -dock -w 1320 -h 16 -x 1200 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
 
 myConfig = defaultConfig { workspaces = workspaces'
                          , modMask = modMask'
@@ -69,7 +69,7 @@ manageHook' = composeAll [ isFullscreen             --> doFullFloat
                          --, className =? "MPlayer"   --> doFloat
                          --, className =? "Gimp"      --> unfloat
                          --, className =? "Vlc"       --> doFloat
-			 , className =? "Firefox"     --> doShift "web"
+			 , className =? "Chromium"     --> doShift "web"
 			 , className =? "Thunderbird" --> doShift "mail"
 			 , className =? "Thunar" --> doShift "file"
 			 , className =? "Clementine" --> doShift "music"
@@ -129,7 +129,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_p     ), spawn "dmenu_run -b -p 'Run'") 
     , ((modMask .|. shiftMask, xK_m     ), spawn "thunderbird")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "firefox")
+    , ((modMask, xK_o), spawn "chromium")
     , ((modMask .|. shiftMask, xK_f), spawn "thunar")
     , ((modMask, xK_f), sendMessage ToggleStruts >> sendMessage ToggleLayout)
 
