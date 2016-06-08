@@ -172,7 +172,7 @@ function! ToggleBetweenHeaderAndSourceFile()
     return
   endif
 
-  let bufname_new = fnameescape(fnamemodify(bufname, ":r")) . "." . ext
+  let bufname_new = fnamemodify(bufname, ":r") . "." . ext
   let bufname_alt = bufname("#")
   if bufname_new == bufname_alt
     execute ":e#"
