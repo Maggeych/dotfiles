@@ -19,6 +19,13 @@ alias out='pkill xmonad'
 alias hiwi='worklog hiwi'
 alias windows='VBoxManage startvm Windows10-Hiwi'
 
+alias gst='git status'
+alias gad='git add'
+alias gcm='git commit -m'
+alias gd='git diff'
+
+alias light='xbacklight -set'
+
 # Functions {{{1
 # ==============================================================================
 tomp3() { ffmpeg -i "${1}" -q:a 0 "${1%.*}.mp3"; }
