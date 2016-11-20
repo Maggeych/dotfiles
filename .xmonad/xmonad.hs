@@ -33,6 +33,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Layout.ResizableTile
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Spacing
+import XMonad.Layout.Gaps
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.Grid
 import XMonad.Layout.Accordion
@@ -45,14 +46,14 @@ import XMonad.Layout.ToggleLayouts
 import Graphics.X11.ExtraTypes.XF86
 
 -- Theme
-import SolarizedTheme
+import MaritimeBrightsTheme
 
 main :: IO ()
 main = do
-  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 2520 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 0"
+  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 550 -h 14 -x 2520 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 10"
   xmonad =<< statusBar cmd customPP toggleStrutsKey myConfig
     where
-      cmd = "dzen2 -dock -w 1320 -h 16 -x 1200 -y 0 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
+      cmd = "dzen2 -dock -w 1418 -h 14 -x 1210 -y 10 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
 
 myConfig = defaultConfig { workspaces = workspaces'
                          , modMask = modMask'
@@ -61,29 +62,32 @@ myConfig = defaultConfig { workspaces = workspaces'
                          , focusedBorderColor = color_border_focus
                          , terminal = terminal'
                          , keys = keys'
-                         , layoutHook = layoutHook'
-                         , manageHook = manageHook'
+                         , layoutHook = avoidStruts $ layoutHook'
+                         , manageHook = manageDocks <+> manageHook'
                          }
 
-manageHook' = composeAll [ isFullscreen             --> doFullFloat
-                         --, className =? "MPlayer"   --> doFloat
-                         --, className =? "Gimp"      --> unfloat
-                         --, className =? "Vlc"       --> doFloat
-			 , className =? "Chromium"     --> doShift "web"
-			 , className =? "Thunderbird" --> doShift "mail"
-			 , className =? "Thunar" --> doShift "file"
-			 , className =? "Clementine" --> doShift "music"
-			 , (className =? "gimp" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat
-			 , insertPosition Above Newer
-			 , transience'
-                         ]
-			where {unfloat = ask >>= doF . W.sink; role = stringProperty "WM_WINDOW_ROLE";}
+manageHook' = composeAll [
+  isFullscreen --> doFullFloat
+  --, className =? "MPlayer"   --> doFloat
+  --, className =? "Gimp" --> unfloat
+  --, className =? "Vlc"       --> doFloat
+	, className =? "Chromium" --> doShift "2"
+	, className =? "Thunderbird" --> doShift "6"
+	, className =? "Thunar" --> doShift "1"
+	, className =? "spotify" --> doShift "5"
+	, className =? "Clementine" --> doShift "5"
+	, (className =? "Gimp" <&&> fmap ("tool" `isSuffixOf`) role) --> doFloat
+	, className =? "VBoxSDL" --> doFloat
+	, insertPosition Above Newer
+	, transience'
+  ] 
+  where {unfloat = ask >>= doF . W.sink ;
+	      role = stringProperty "WM_WINDOW_ROLE"}
 
-
-customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws_active_bg . wrap " " " "
-                     , ppVisible = dzenColor color_bar_ws_visible_fg color_bar_ws_visible_bg . wrap " " " "
-                     , ppHidden = dzenColor color_bar_ws_hidden_fg color_bar_ws_hidden_bg . wrap " " " "
-                     , ppHiddenNoWindows = dzenColor color_bar_ws_hiddennowindows_fg color_bar_ws_hiddennowindows_bg . wrap " " " "
+customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws_active_bg . wrap "  " "  "
+                     , ppVisible = dzenColor color_bar_ws_visible_fg color_bar_ws_visible_bg . wrap "  " "  "
+                     , ppHidden = dzenColor color_bar_ws_hidden_fg color_bar_ws_hidden_bg . wrap "  " "  "
+                     , ppHiddenNoWindows = dzenColor color_bar_ws_hiddennowindows_fg color_bar_ws_hiddennowindows_bg . wrap "  " "  "
                      , ppUrgent = dzenColor color_bar_ws_urgent_fg color_bar_ws_urgent_bg . wrap "<" ">"
                      , ppLayout = dzenColor color_bar_layout_fg color_bar_layout_bg . 
                         (\x -> case x of
@@ -93,22 +97,23 @@ customPP = defaultPP { ppCurrent = dzenColor color_bar_ws_active_fg color_bar_ws
                          "full"				->	" ^i(/home/maggeych/.xmonad/dzen2/layout_full.xbm) "
                         )
                      , ppTitle =  dzenColor color_bar_title "" . shorten 80 . pad
-                     , ppSep = dzenColor color_bar_sep "" "|"
-                     , ppWsSep = dzenColor color_bar_sep "" ""
+                     , ppSep = dzenColor color_bar_sep "" "  "
+                     , ppWsSep = dzenColor color_bar_sep color_bar_sep " "
                      }
 
 myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 
 --workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
-workspaces' = ["misc", "web", "dev", "4", "5", "6", "file", "mail", "music"]
+workspaces' = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
                                                              
-layoutHook' = lessBorders OtherIndicated (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
-    grid = space $ Mirror $ smartBorders $ Mirror $ GridRatio(2/2)
-    tall = space $ smartBorders $ ResizableTall 1 (5/100) (1/2) []
-    wide = space $ smartBorders $ Mirror $ ResizableTall 1 (5/100) (1/2) []
+layoutHook' = (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
+    grid = space $ Mirror $ Mirror $ gap $ GridRatio(2/2)
+    tall = space $ gap $ ResizableTall 1 (5/100) (1/2) []
+    wide = space $ Mirror $ gap $ ResizableTall 1 (5/100) (1/2) []
     space = spacing border_gap
+    gap = gaps [(U,0),(D,border_gap),(L,border_gap),(R,border_gap)] 
 
-terminal' = "urxvt"
+terminal' = "urxvtc"
 
 -------------------------------------------------------------------------------
 -- Keys/Button bindings --
@@ -167,8 +172,8 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((0,               xF86XK_KbdBrightnessDown), spawn "asus-kbd-backlight down")
 
     -- Monitor backlight
-    , ((0,               xF86XK_MonBrightnessUp), spawn "xbacklight -inc 10")
-    , ((0,               xF86XK_MonBrightnessDown), spawn "xbacklight -dec 10")
+    , ((0,               xF86XK_MonBrightnessUp), spawn "xbacklight -inc 2")
+    , ((0,               xF86XK_MonBrightnessDown), spawn "xbacklight -dec 2")
 
     -- Touchpad toggle
     , ((modMask,               xK_d), spawn "touchpadtoggle")

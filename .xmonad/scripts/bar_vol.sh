@@ -20,4 +20,5 @@ else
 fi
 
 ICON="^i(/home/maggeych/.xmonad/dzen2/$ICON)"
-echo "^fg($COLOR)$ICON $PERCBAR"
+#echo "^fg($foreground)$ICON ^fg($COLOR)$PERCBAR"
+echo "$ICON $AMASTER"

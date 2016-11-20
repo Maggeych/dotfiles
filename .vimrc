@@ -2,6 +2,7 @@
 " ==============================================================================
 set nocompatible
 
+runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 
 set hidden                                 " dont close buffers, hide them
@@ -42,7 +43,7 @@ set foldmethod=indent                      " enable folding using indent mode
 set foldlevelstart=99                           " make shure no fold is closed when opening
 
 set textwidth=80                           " set default text width to 80
-set formatoptions-=t                       " dont automatically wrap code if text width is reached
+set formatoptions+=t                       " automatically wrap code if text width is reached
 set formatoptions+=c                       " automatically wrap comments if text width is reached
 
 " basic vim looks {{{1
@@ -51,7 +52,11 @@ syntax on                                  " syntax highlighting on
 
 set title                                  " change the terminal's title
 
-set nowrap                                 " don't wrap lines
+"set nowrap                                 " don't wrap lines
+set wrap                                   " wrap lines ...
+set linebreak                              " ... at words.
+set breakindent                            " Indent broken lines.
+set showbreak=\ \                          " Prepend two whitespaces.
 
 set tabstop=2                              " a tab is two spaces
 set cursorline                             " mark the current cursor line
@@ -79,7 +84,8 @@ set fillchars="fold: "                     " dont print filling characters on a 
 set nolist                                 " list is toggled with a hotkey
 set listchars=tab:>-,eol:¬                 " special characters for list
 
-colorscheme solarized                      " use solarized
+let base16colorspace=256 
+colorscheme base16-atelierforest           " use atelierforest
 set background=dark                        " use the dark flavour
 function FoldColorSchemeChanges()              " custom changes to the colorscheme regarding folding
   function! MyFoldText()
@@ -134,13 +140,26 @@ function! ToggleBetweenHeaderAndSourceFile()
   let bufname = bufname("%")
   let ext = fnamemodify(bufname, ":e")
   let seperateIncDir = 0
-  if split(bufname, '/')[0] == "include"
-    let bufname = substitute(bufname("%"), 'include', 'src', '')
-  elseif split(bufname, '/')[0] == "src"
-    if (filereadable(fnamemodify(bufname, ":r") . "." . "h") == 0)
-      let bufname = substitute(bufname("%"), 'src', 'include', '')
+
+  let splitName = split(bufname, '/')
+  let idx = len(splitName) - 1
+  while idx > -1
+    if splitName[idx] == "include"
+      let splitName[idx] = "src"
+      break
+    elseif splitName[idx] == "src"
+      " Header file in same directory?
+      if (filereadable(fnamemodify(bufname, ":r") . "." . "h") != 0)
+        break
+      else
+        let splitName[idx] = "include"
+        break
+      endif
     endif
-  endif
+    let idx = idx - 1
+  endwhile
+
+  let bufname = join(splitName, '/')
   if ext == "h"
     if (filereadable(fnamemodify(bufname, ":r") . "." . "cu"))
       let ext = "cu"
@@ -152,36 +171,15 @@ function! ToggleBetweenHeaderAndSourceFile()
   else
     return
   endif
+
   let bufname_new = fnamemodify(bufname, ":r") . "." . ext
   let bufname_alt = bufname("#")
   if bufname_new == bufname_alt
     execute ":e#"
   else
-    execute ":e " . bufname_new
+    execute ":e " . fnameescape(bufname_new)
   endif
 endfunction
-" function! ToggleBetweenHeaderAndSourceFile()
-"   let bufname = bufname("%")
-"   let ext = fnamemodify(bufname, ":e")
-"   if ext == "h"
-"     if (filereadable(fnamemodify(bufname, ":r") . "." . "cu"))
-"       let ext = "cu"
-"     else
-"       let ext = "cpp"
-"     endif
-"   elseif ext == "cpp" || ext == "cu"
-"     let ext = "h"
-"   else
-"     return
-"   endif
-"   let bufname_new = fnamemodify(bufname, ":r") . "." . ext
-"   let bufname_alt = bufname("#")
-"   if bufname_new == bufname_alt
-"     execute ":e#"
-"   else
-"     execute ":e " . bufname_new
-"   endif
-" endfunction
 
 " Fill the current line to 80 with the given character
 com -nargs=1 FillLine call FillLine(<f-args>)
@@ -292,7 +290,7 @@ endif
 
 function FtCSettings()
   autocmd BufEnter *.cpp,*.h,*.ino,*.pde highlight OverLength ctermbg=darkgrey guibg=#592929  " color for overlength
-  autocmd BufEnter *.cpp,*.h,*.ino,*.pde match OverLength /\%81v.*/  " highlight lines longer than 80 chars
+  autocmd BufEnter *.cpp,*.h,*.ino,*.pde match ErrorMsg /\%81v.*/  " highlight lines longer than 80 chars
   autocmd BufEnter *.cpp,*.h,*.ino,*.pde set foldmethod=indent
   autocmd BufWritePre *.cpp :%s/\s\+$//e   " delete unneccesary whitespaces on save
   autocmd BufWritePre *.h :%s/\s\+$//e     " delete unneccesary whitespaces on save
