@@ -6,7 +6,7 @@ urxvtd -q -f -o
 xset +fp /usr/share/fonts/local
 xset fp rehash
 xsetroot -cursor_name left_ptr
-eval $(dbus-launch --sh-syntax --exit-with-session)
+# eval $(dbus-launch --sh-syntax --exit-with-session)
 sh ~/.fehbg &
 [[ -f ~/.Xresources ]] && xrdb -merge ~/.Xresources &
 eval $(/usr/bin/gnome-keyring-daemon --start --components=gpg,pkcs11,secrets,ssh)
