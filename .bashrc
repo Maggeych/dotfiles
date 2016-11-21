@@ -29,11 +29,24 @@ alias light='xbacklight -set'
 # Functions {{{1
 # ==============================================================================
 tomp3() { ffmpeg -i "${1}" -q:a 0 "${1%.*}.mp3"; }
+touchpad() { 
+  if [ "${1}" == "on" ]
+  then
+    synclient TouchpadOff=0
+    synclient ClickPad=1
+  elif [ "${1}" == "off" ]
+  then
+    synclient TouchpadOff=1
+    synclient ClickPad=0
+  else
+    echo "  Usage: touchpad [on|off]"
+  fi
+}
 
 # Directories {{{1
 # ==============================================================================
-alias sm='cd /home/maggeych/Code/smarties/smarties'
-alias smb='cd /home/maggeych/Code/smarties/build/x86-64/smarties'
+alias mp='cd /home/maggeych/Code/multicamerasetup && vim'
+alias mpb='cd /home/maggeych/Code/multicamerasetup/build'
 
 # Environment {{{1
 # ==============================================================================
@@ -57,24 +70,24 @@ fi
 
 # ROS {{{1
 # ==============================================================================
-# indigo() {
-#   source /opt/ros/indigo/setup.bash
-#   #export ROS_PACKAGE_PATH=/home/maggeych/Uni/Hiwi/ros:$ROS_PACKAGE_PATH
-#   export PYTHONPATH=/opt/ros/indigo/lib/python2.7/site-packages:$PYTHONPATH
-#   export PKG_CONFIG_PATH="/opt/ros/indigo/lib/pkgconfig:$PKG_CONFIG_PATH"
-#   export ROS_HOSTNAME="localhost"
-#   export ROS_MASTER_URI="http://localhost:11311"
-#   alias python=/usr/bin/python2
-#   alias catkin_make='catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so'
-# 
-#   # # Gazebo
-#   # source /usr/share/gazebo/setup.sh
-# }
-# kuka () {
-#   indigo
-#   cd /home/maggeych/Uni/Hiwi/ros/
-#   vim
-# }
+indigo() {
+  source /opt/ros/indigo/setup.bash
+  export ROS_PACKAGE_PATH=/home/maggeych/Code/ros:$ROS_PACKAGE_PATH
+  export PYTHONPATH=/opt/ros/indigo/lib/python2.7/site-packages:$PYTHONPATH
+  export PKG_CONFIG_PATH="/opt/ros/indigo/lib/pkgconfig:$PKG_CONFIG_PATH"
+  export ROS_HOSTNAME="localhost"
+  export ROS_MASTER_URI="http://localhost:11311"
+  alias python=/usr/bin/python2
+  alias catkin_make='catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so'
+
+  # # Gazebo
+  # source /usr/share/gazebo/setup.sh
+}
+kuka () {
+  indigo
+  cd /home/maggeych/Uni/Hiwi/ros/
+  vim
+}
 
 
 # Smarties {{{1
