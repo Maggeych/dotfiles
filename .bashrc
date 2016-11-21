@@ -29,19 +29,6 @@ alias light='xbacklight -set'
 # Functions {{{1
 # ==============================================================================
 tomp3() { ffmpeg -i "${1}" -q:a 0 "${1%.*}.mp3"; }
-touchpad() { 
-  if [ "${1}" == "on" ]
-  then
-    synclient TouchpadOff=0
-    synclient ClickPad=1
-  elif [ "${1}" == "off" ]
-  then
-    synclient TouchpadOff=1
-    synclient ClickPad=0
-  else
-    echo "  Usage: touchpad [on|off]"
-  fi
-}
 
 # Directories {{{1
 # ==============================================================================
