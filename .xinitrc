@@ -1,6 +1,10 @@
 #!/bin/sh
 #
+export TERM='xterm-256color'
+export TERMCMD='urxvt'
+export EDITOR='vim'
 export _JAVA_AWT_WM_NOREPARENTING=1
+PATH=~/Code/bin:$PATH
 xmodmap .Xmodmap
 urxvtd -q -f -o
 xset +fp /usr/share/fonts/local
@@ -14,6 +18,7 @@ trayer --edge top --align right --widthtype pixel --width 50 --SetDockType true 
 nm-applet &
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 #compton -r 8 -l "-8" -t "-8" -f -c -C -G -D 5 &
+unclutter -reset -idle 1 &
 compton --config ~/.compton.conf &
 devmon &
 thunar &
