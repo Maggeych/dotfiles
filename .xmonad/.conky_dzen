@@ -1,4 +1,4 @@
-short_units yes
+# short_units yes
 background yes
 out_to_console yes
 out_to_x no
@@ -11,6 +11,4 @@ own_window_class Conky
 # ^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_network.sh)   ^fg(\#A3A6AB)${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh} ^fg(\#000000)${wireless_essid wlan0}   ^ca()\
 # ^ca(1,/home/maggeych/.xmonad/sc /home/maggeych/.xmonad/scripts/dzen_log.sh)^fg(\#A3A6AB)   ^i(/home/maggeych/.xmonad/dzen2/info_03.xbm)   ^ca()\
 TEXT
-^fg(\#bbbbbb)${wireless_essid wlp3s0}   ^fg(\#68615e)${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh}\
-   ${execi 2 /home/maggeych/.xmonad/scripts/bar_ram.sh}\
-   ^i(/home/maggeych/.xmonad/dzen2/clock.xbm) ${time %I:%M %P}
+   ^fg(\#2c7873)^i(/home/maggeych/.xmonad/dzen2/cpu.xbm)${execi 2 /home/maggeych/.xmonad/scripts/bar_cpu.sh 1} ${execi 2 /home/maggeych/.xmonad/scripts/bar_cpu.sh 2} ${execi 2 /home/maggeych/.xmonad/scripts/bar_cpu.sh 3} ${execi 2 /home/maggeych/.xmonad/scripts/bar_cpu.sh 4}    ${execi 2 /home/maggeych/.xmonad/scripts/bar_ram.sh}    ${execi 2 /home/maggeych/.xmonad/scripts/bar_wifi.sh}    ^i(/home/maggeych/.xmonad/dzen2/calendar.xbm) ${time %A, %d.%m.%Y}    ^i(/home/maggeych/.xmonad/dzen2/clock.xbm) ${time %H:%M}
