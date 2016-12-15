@@ -24,4 +24,5 @@ devmon &
 thunar &
 chromium &
 urxvtc &
+wmname LG3D &
 exec xmonad
