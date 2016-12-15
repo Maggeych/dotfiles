@@ -2,8 +2,8 @@
 
 source $(dirname $0)/config.sh
 
-QUAL=`iwconfig wlp0s29u1u1 | grep 'Link Quality=' | awk '{gsub(/[=/]/," "); print $3}'`
-MAX=`iwconfig wlp0s29u1u1 | grep 'Link Quality=' | awk '{gsub(/[=/]/," "); print $4}'`
+QUAL=`iwconfig wlp3s0 | grep 'Link Quality=' | awk '{gsub(/[=/]/," "); print $3}'`
+MAX=`iwconfig wlp3s0 | grep 'Link Quality=' | awk '{gsub(/[=/]/," "); print $4}'`
 PERC=`echo $QUAL*100/$MAX | bc`
 
 color=""
@@ -23,4 +23,4 @@ elif [[ $PERC -lt 101 ]]; then
 fi
 
 ICON='^i(/home/maggeych/.xmonad/dzen2/'"$ICON)"
-echo "$ICON $PERC%"
+echo "$ICON $PERC"
