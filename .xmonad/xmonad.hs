@@ -41,6 +41,7 @@ import XMonad.Layout.Named
 import XMonad.Layout.NoBorders
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.ToggleLayouts
+import XMonad.Layout.LayoutHints
 
 -- Media keys
 import Graphics.X11.ExtraTypes.XF86
@@ -50,7 +51,7 @@ import FlatPlatTheme
 
 main :: IO ()
 main = do
-  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 450 -h 16 -x 2520 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 3"
+  dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 550 -h 16 -x 2520 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 3"
   xmonad =<< statusBar cmd customPP toggleStrutsKey myConfig
     where
       cmd = "dzen2 -dock -w 1418 -h 17 -x 1210 -y 2 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
@@ -107,7 +108,7 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 --workspaces' = ["^i(/home/maggeych/.xmonad/dzen2/arch_10x10.xbm)", "^i(/home/maggeych/.xmonad/dzen2/www.xbm)", "^i(/home/maggeych/.xmonad/dzen2/games.xbm)", "^i(/home/maggeych/.xmonad/dzen2/diskette.xbm)", "^i(/home/maggeych/.xmonad/dzen2/mail.xbm)"]
 workspaces' = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
                                                              
-layoutHook' = (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
+layoutHook' = layoutHintsToCenter (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
     grid = space $ Mirror $ Mirror $ gap $ GridRatio(2/2)
     tall = space $ gap $ ResizableTall 1 (5/100) (1/2) []
     wide = space $ Mirror $ gap $ ResizableTall 1 (5/100) (1/2) []
