@@ -132,6 +132,8 @@ let g:snips_location="Freiburg"
 let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/snippets/"]  " Where to look for snippets
 " let g:ycm_enable_diagnostic_signs=0
 " let g:ycm_enable_diagnostic_highlighting=0
+let g:fuf_coveragefile_globPatterns = ['**/*.h', '**/*.cpp', '**.*.c', '**/*.xml', '**/*.qml', '**/*.txt', '**/*.py']
+let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.class$|^build'
 
 " functions {{{1
 " ==============================================================================
@@ -289,10 +291,11 @@ if has('autocmd')
 endif
 
 function FtCSettings()
-  autocmd BufEnter *.cpp,*.h,*.ino,*.pde highlight OverLength ctermbg=darkgrey guibg=#592929  " color for overlength
-  autocmd BufEnter *.cpp,*.h,*.ino,*.pde match ErrorMsg /\%81v.*/  " highlight lines longer than 80 chars
+  autocmd BufEnter *.cpp,*.h,*.ino,*.pde highlight OverLength ctermbg=52 guibg=#592929  " color for overlength
+  autocmd BufEnter *.cpp,*.h,*.ino,*.pde match OverLength /\%81v.*/  " highlight lines longer than 80 chars
   autocmd BufEnter *.cpp,*.h,*.ino,*.pde set foldmethod=indent
   autocmd BufWritePre *.cpp :%s/\s\+$//e   " delete unneccesary whitespaces on save
+  autocmd BufWritePre *.c :%s/\s\+$//e   " delete unneccesary whitespaces on save
   autocmd BufWritePre *.h :%s/\s\+$//e     " delete unneccesary whitespaces on save
   let &path.="include"  " so gf finds files
 endfunction
