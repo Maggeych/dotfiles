@@ -46,8 +46,8 @@ export JAVA_AWT_WM_NOREPARENTING=1
 # ==============================================================================
 BASE16_SHELL="$HOME/.terminalcolors/base16-shell/base16-atelierforest.light.sh"
 [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
-# PS1="\[\033[1;10m\]/\h/\u\[\033[0;10m\] at \w\[\033[1;96m\]\n\[\033[0m\]$ "
-PS1="\[\033[1;7m\] \u \[\033[0;7m\]\w \[\033[1;7m\]\[\033[0m\]"
+PS1="\[\033[1;10m\]\u[\h]\[\033[0;10m\][\w]\[\033[1;96m\]\[\033[0m\]$ "
+#PS1="\[\033[1;7m\] \u \[\033[0;7m\]\w \[\033[1;7m\]\[\033[0m\]"
 
 if [ $(( RANDOM % 6)) -eq 0 ]; then
   echo -e -n "\033[0;37m"
