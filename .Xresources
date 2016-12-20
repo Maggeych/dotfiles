@@ -1,13 +1,13 @@
 URxvt.scrollBar: false
 !URxvt.font: xft:ProggyCleanTT CE:style=Book:antialias=false:size=12
 !URxvt.font: xft:DejaVu Sans Mono:size=10
-URxvt.font: xft:Roboto Mono:size=9
-!URxvt.font: xft:Ubuntu Mono:size=12
+!URxvt.font: xft:Roboto Mono:size=9
+URxvt.font: xft:Ubuntu Mono:size=10
 #include "/home/maggeych/.terminalcolors/base16-xresources/base16-atelierforest.light.256.xresources"
 URxvt.intensityStyles: false
 URxvt.depth: 16
 !URxvt.background: #002b36
-URxvt.letterSpace: -1
+URxvt.letterSpace: -2
 URxvt.internalBorder:  10
 URxvt.cursorBlink: true
 URxvt.saveLines: 12000
