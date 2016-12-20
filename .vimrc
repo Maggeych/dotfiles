@@ -114,6 +114,10 @@ function FoldColorSchemeChanges()              " custom changes to the colorsche
   endif
 endfunction
 call FoldColorSchemeChanges()                  " apply the colorscheme changes
+highlight YcmErrorSection ctermbg=1 ctermfg=0 cterm=bold
+highlight YcmErrorLine ctermbg=18 ctermfg=None
+highlight YcmErrorSign ctermbg=18 ctermfg=1
+
 
 
 
