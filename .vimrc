@@ -114,6 +114,10 @@ function FoldColorSchemeChanges()              " custom changes to the colorsche
   endif
 endfunction
 call FoldColorSchemeChanges()                  " apply the colorscheme changes
+highlight YcmErrorSection ctermbg=1 ctermfg=0 cterm=bold
+highlight YcmErrorLine ctermbg=18 ctermfg=None
+highlight YcmErrorSign ctermbg=18 ctermfg=1
+
 
 
 
@@ -132,6 +136,8 @@ let g:snips_location="Freiburg"
 let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/snippets/"]  " Where to look for snippets
 " let g:ycm_enable_diagnostic_signs=0
 " let g:ycm_enable_diagnostic_highlighting=0
+let g:fuf_coveragefile_globPatterns = ['**/*.h', '**/*.cpp', '**.*.c', '**/*.xml', '**/*.qml', '**/*.txt', '**/*.py']
+let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.class$|^build'
 
 " functions {{{1
 " ==============================================================================
@@ -180,28 +186,6 @@ function! ToggleBetweenHeaderAndSourceFile()
     execute ":e " . fnameescape(bufname_new)
   endif
 endfunction
-" function! ToggleBetweenHeaderAndSourceFile()
-"   let bufname = bufname("%")
-"   let ext = fnamemodify(bufname, ":e")
-"   if ext == "h"
-"     if (filereadable(fnamemodify(bufname, ":r") . "." . "cu"))
-"       let ext = "cu"
-"     else
-"       let ext = "cpp"
-"     endif
-"   elseif ext == "cpp" || ext == "cu"
-"     let ext = "h"
-"   else
-"     return
-"   endif
-"   let bufname_new = fnamemodify(bufname, ":r") . "." . ext
-"   let bufname_alt = bufname("#")
-"   if bufname_new == bufname_alt
-"     execute ":e#"
-"   else
-"     execute ":e " . bufname_new
-"   endif
-" endfunction
 
 " Fill the current line to 80 with the given character
 com -nargs=1 FillLine call FillLine(<f-args>)
@@ -311,10 +295,11 @@ if has('autocmd')
 endif
 
 function FtCSettings()
-  autocmd BufEnter *.cpp,*.h,*.ino,*.pde highlight OverLength ctermbg=darkgrey guibg=#592929  " color for overlength
-  autocmd BufEnter *.cpp,*.h,*.ino,*.pde match ErrorMsg /\%81v.*/  " highlight lines longer than 80 chars
+  autocmd BufEnter *.cpp,*.h,*.ino,*.pde highlight OverLength ctermbg=52 guibg=#592929  " color for overlength
+  autocmd BufEnter *.cpp,*.h,*.ino,*.pde match OverLength /\%81v.*/  " highlight lines longer than 80 chars
   autocmd BufEnter *.cpp,*.h,*.ino,*.pde set foldmethod=indent
   autocmd BufWritePre *.cpp :%s/\s\+$//e   " delete unneccesary whitespaces on save
+  autocmd BufWritePre *.c :%s/\s\+$//e   " delete unneccesary whitespaces on save
   autocmd BufWritePre *.h :%s/\s\+$//e     " delete unneccesary whitespaces on save
   let &path.="include"  " so gf finds files
 endfunction
