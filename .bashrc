@@ -17,7 +17,6 @@ alias c='clear'
 alias out='pkill xmonad'
 
 alias hiwi='worklog hiwi'
-alias windows='VBoxManage startvm Windows10-Hiwi'
 
 alias gst='git status'
 alias gad='git add'
@@ -34,6 +33,7 @@ tomp3() { ffmpeg -i "${1}" -q:a 0 "${1%.*}.mp3"; }
 # ==============================================================================
 alias mp='cd /home/maggeych/Code/multicamerasetup && vim'
 alias mpb='cd /home/maggeych/Code/multicamerasetup/build'
+alias bl='cd /home/maggeych/Uni/16-SS/Masterprojekt/blender'
 
 # Environment {{{1
 # ==============================================================================
