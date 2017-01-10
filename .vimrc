@@ -133,11 +133,11 @@ let delimitMate_expand_cr = 1
 
 let g:snips_author="Markus Frey"
 let g:snips_location="Freiburg"
-let g:UltiSnipsSnippetDirectories=["~/.vim/bundle/vim-snippets/snippets/"]  " Where to look for snippets
+let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnippets/"]  " Where to look for snippets
 " let g:ycm_enable_diagnostic_signs=0
 " let g:ycm_enable_diagnostic_highlighting=0
 let g:fuf_coveragefile_globPatterns = ['**/*.h', '**/*.cpp', '**.*.c', '**/*.xml', '**/*.qml', '**/*.txt', '**/*.py']
-let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.class$|^build'
+let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.class$|^build|^external'
 
 " functions {{{1
 " ==============================================================================
