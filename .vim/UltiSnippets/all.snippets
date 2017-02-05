@@ -1,0 +1,39 @@
+priority -60
+
+global !p
+import vim, time
+
+def _parse_comments(s):
+    """ Parses vim's comments option to extract comment format """
+    i = iter(s.split(","))
+
+    rv = []
+    try:
+        while True:
+            # get the flags and text of a comment part
+            flags, text = next(i).split(':', 1)
+
+            if len(flags) == 0:
+                return text
+    except StopIteration:
+        return "UNKNOWN COMMENT STRING "
+
+def get_whole_line_comment():
+    commentstring = vim.eval("&commentstring")
+    if commentstring.endswith("%s"):
+        return commentstring[:-2]
+    return _parse_comments(vim.eval("&comments"))
+endglobal
+
+snippet copy "Copyright notice"
+`!p 
+c = get_whole_line_comment()
+y = time.strftime("%Y");
+l = vim.eval('g:snips_location')
+a = vim.eval('g:snips_author')
+snip.rv = "%(c)s Copyright © %(y)s, %(l)s." % locals()
+snip += "%(c)s Author: %(a)s. All Rights Reserved." % locals()`
+
+endsnippet
+
+# vim:ft=snippets:
