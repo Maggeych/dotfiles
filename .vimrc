@@ -1,6 +1,7 @@
 " vim general {{{1
 " ==============================================================================
 set nocompatible
+filetype off
 
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 execute pathogen#infect()
@@ -131,13 +132,29 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") &&
 
 let delimitMate_expand_cr = 1
 
+let NERDTreeQuitOnOpen=1
+
 let g:snips_author="Markus Frey"
 let g:snips_location="Freiburg"
-let g:UltiSnipsSnippetDirectories=["~/.vim/UltiSnippets/"]  " Where to look for snippets
+let g:UltiSnipsSnippetDirectories=["UltiSnippets"]  " Where to look for snippets
+let g:UltiSnipsEnableSnipMate=1
 " let g:ycm_enable_diagnostic_signs=0
 " let g:ycm_enable_diagnostic_highlighting=0
 let g:fuf_coveragefile_globPatterns = ['**/*.h', '**/*.cpp', '**.*.c', '**/*.xml', '**/*.qml', '**/*.txt', '**/*.py']
 let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.class$|^build|^external'
+
+let g:ycm_autoclose_preview_window_after_insertion = 1
+" make YCM compatible with UltiSnips (using supertab)
+set completeopt=menu
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_add_preview_to_completeopt = 0
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<cr>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 
 " functions {{{1
 " ==============================================================================
@@ -187,11 +204,6 @@ function! ToggleBetweenHeaderAndSourceFile()
   endif
 endfunction
 
-" Fill the current line to 80 with the given character
-com -nargs=1 FillLine call FillLine(<f-args>)
-function! FillLine(filler)
-  exe "normal! A \<esc>80A" . a:filler. "\<esc>d80|"
-endfunction
 
 " hotkeys {{{1
 " ==============================================================================
@@ -258,24 +270,18 @@ vnoremap <F5> :ToggleBG<CR>:call FoldColorSchemeChanges()
 
 " " move over closing delimiter with Ctrl-Space
 " inoremap <C-@> <C-R>=delimitMate#JumpAny("\<C-@>")<CR>
-" inoremap <C-Space> <C-R>=delimitMate#JumpAny("\<C-Space>")<CR>
-
-" fill current line with =
-inoremap = <Esc>:FillLine =<CR>
+inoremap <C-Space> <C-R>=delimitMate#JumpAny("\<C-Space>")<CR>
 
 " move everything from the cursor to the end of the line atop of the current line
 nnoremap <S-k> :execute "normal! d$:" . (line(".") - 1) ."put\<lt>CR>"<CR>
-
-" toggle eog and tab visualization
-noremap <leader>p :set list!<CR>
 
 nnoremap 'f :FufCoverageFile<cr>
 nnoremap 'h :FufFile $HOME/<cr>
 nnoremap 'k :FufBuffer<cr>
 nnoremap 'd :FufDir<cr>
 
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
+"let g:ycm_key_list_select_completion=[]
+"let g:ycm_key_list_previous_completion=[]
 
 " UltiSnips
 " let g:UltiSnipsExpandTrigger="<NUL>"
