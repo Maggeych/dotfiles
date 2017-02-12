@@ -17,6 +17,7 @@ import Data.List -- for isSuffixOf
 -- 
 -- -- actions
 import XMonad.Actions.GridSelect
+import XMonad.Actions.CopyWindow
 -- 
 -- hooks
 import XMonad.Hooks.DynamicLog
@@ -190,6 +191,10 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_l     ), sendMessage Expand)
     , ((modMask .|. shiftMask, xK_h     ), sendMessage MirrorShrink)
     , ((modMask .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
+
+    -- make visible on all workspaces
+     , ((modMask, xK_v ), windows copyToAll) -- @@ Make focused window always visible
+		 , ((modMask.|. shiftMask, xK_v ),  killAllOtherCopies) -- @@ Toggle window state back
 
     -- quit, or restart
     , ((modMask .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
