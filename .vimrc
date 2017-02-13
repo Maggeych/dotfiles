@@ -150,11 +150,15 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 let g:ycm_add_preview_to_completeopt = 0
 let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:ycm_always_populate_location_list = 1
 
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
 let g:UltiSnipsJumpForwardTrigger = "<cr>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+let g:lt_location_list_toggle_map = '<F11>'
+let g:lt_quickfix_list_toggle_map = '<F12>'
 
 " functions {{{1
 " ==============================================================================
