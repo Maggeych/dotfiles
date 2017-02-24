@@ -174,8 +174,8 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((0,               xF86XK_KbdBrightnessDown), spawn "asus-kbd-backlight down")
 
     -- Monitor backlight
-    , ((0,               xF86XK_MonBrightnessUp), spawn "xbacklight -inc 2")
-    , ((0,               xF86XK_MonBrightnessDown), spawn "xbacklight -dec 2")
+    , ((0,               xF86XK_MonBrightnessUp), spawn "sudo xbacklight -inc 2")
+    , ((0,               xF86XK_MonBrightnessDown), spawn "sudo xbacklight -dec 2")
 
     -- Touchpad toggle
     , ((modMask,               xK_d), spawn "touchpadtoggle")

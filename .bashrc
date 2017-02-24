@@ -23,7 +23,7 @@ alias gad='git add'
 alias gcm='git commit -m'
 alias gd='git diff'
 
-alias light='xbacklight -set'
+alias light='sudo xbacklight -set'
 
 # Functions {{{1
 # ==============================================================================
