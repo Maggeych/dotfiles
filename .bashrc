@@ -35,6 +35,7 @@ tomp3() { ffmpeg -i "${1}" -q:a 0 "${1%.*}.mp3"; }
 alias mp='cd /home/maggeych/Code/multicamerasetup && vim'
 alias mpb='cd /home/maggeych/Code/multicamerasetup/build'
 alias lab='cd /media/sdc1-usb-WD_Elements_10B8/Uni/16-WS/AufnahmenMarkus/Setup3/Example'
+alias mplatex='cd "/media/sdc1-usb-WD_Elements_10B8/Uni/16-WS/Projekt Latex"'
 
 # Environment {{{1
 # ==============================================================================
