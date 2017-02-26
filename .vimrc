@@ -140,7 +140,7 @@ let g:UltiSnipsSnippetDirectories=["UltiSnippets"]  " Where to look for snippets
 let g:UltiSnipsEnableSnipMate=1
 " let g:ycm_enable_diagnostic_signs=0
 " let g:ycm_enable_diagnostic_highlighting=0
-let g:fuf_coveragefile_globPatterns = ['**/*.h', '**/*.cpp', '**.*.c', '**/*.xml', '**/*.qml', '**/*.txt', '**/*.py']
+let g:fuf_coveragefile_globPatterns = ['**/*.h', '**/*.hpp', '**/*.cpp', '**.*.c', '**/*.xml', '**/*.qml', '**/*.txt', '**/*.py']
 let g:fuf_coveragefile_exclude = '\v\~$|\.o$|\.exe$|\.class$|^build|^external'
 
 let g:ycm_autoclose_preview_window_after_insertion = 1
