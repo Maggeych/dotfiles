@@ -110,7 +110,7 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 workspaces' = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
                                                              
 layoutHook' = layoutHintsToCenter (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
-    grid = space $ Mirror $ Mirror $ gap $ GridRatio(2/2)
+    grid = space $ gap $ GridRatio(3/2)
     tall = space $ gap $ ResizableTall 1 (5/100) (1/2) []
     wide = space $ Mirror $ gap $ ResizableTall 1 (5/100) (1/2) []
     space = spacing border_gap
