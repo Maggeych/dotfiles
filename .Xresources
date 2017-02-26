@@ -3,7 +3,7 @@ URxvt.scrollBar: false
 !URxvt.font: xft:DejaVu Sans Mono:size=10
 !URxvt.font: xft:Roboto Mono:size=9
 URxvt.font: xft:Ubuntu Mono:size=10
-#include "/home/maggeych/.terminalcolors/base16-xresources/base16-atelierforest.light.256.xresources"
+#include "/home/maggeych/.terminalcolors/base16-xresources/xresources/base16-atelier-forest-256.Xresources"
 URxvt.intensityStyles: false
 URxvt.depth: 16
 !URxvt.background: #002b36
