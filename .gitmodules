@@ -55,3 +55,6 @@
 [submodule ".vim/bundle/ListToggle"]
 	path = .vim/bundle/ListToggle
 	url = https://github.com/Valloric/ListToggle.git
+[submodule ".vim/bundle/vim-surround"]
+	path = .vim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
