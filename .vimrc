@@ -302,6 +302,7 @@ if has('autocmd')
   autocmd filetype c,cpp,arduino call FtCSettings()
   autocmd filetype vim,sh call ShSettings()
   autocmd filetype tex call TexSettings()
+  autocmd BufNewFile,BufRead *.prototxt setfiletype proto
 endif
 
 function FtCSettings()
