@@ -31,7 +31,7 @@ c = get_whole_line_comment()
 y = time.strftime("%Y");
 l = vim.eval('g:snips_location')
 a = vim.eval('g:snips_author')
-snip.rv = "%(c)s Copyright © %(y)s, %(l)s." % locals()
+snip.rv = "%(c)s Copyright %(y)s, %(l)s." % locals()
 snip += "%(c)s Author: %(a)s. All Rights Reserved." % locals()`
 
 endsnippet
