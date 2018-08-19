@@ -58,3 +58,9 @@
 [submodule ".vim/bundle/vim-surround"]
 	path = .vim/bundle/vim-surround
 	url = https://github.com/tpope/vim-surround.git
+[submodule ".vim/bundle/vim-protobuf"]
+	path = .vim/bundle/vim-protobuf
+	url = git://github.com/uarun/vim-protobuf.git
+[submodule ".vim/bundle/vim-prototxt"]
+	path = .vim/bundle/vim-prototxt
+	url = https://github.com/chiphogg/vim-prototxt.git
