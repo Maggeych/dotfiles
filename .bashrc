@@ -16,9 +16,6 @@ alias c='clear'
 
 alias out='pkill xmonad'
 
-alias hiwi='worklog hiwi'
-alias windows='VBoxManage startvm Windows10-Hiwi'
-
 alias gst='git status'
 alias gad='git add'
 alias gcm='git commit -m'
@@ -29,13 +26,6 @@ alias light='xbacklight -set'
 # Functions {{{1
 # ==============================================================================
 tomp3() { ffmpeg -i "${1}" -q:a 0 "${1%.*}.mp3"; }
-
-# Directories {{{1
-# ==============================================================================
-alias mp='cd /home/maggeych/Code/multicamerasetup && vim'
-alias mpb='cd /home/maggeych/Code/multicamerasetup/build'
-alias lab='cd /media/sdc1-usb-WD_Elements_10B8/Uni/16-WS/AufnahmenMarkus/Setup3/Example'
-alias mplatex='cd "/media/sdc1-usb-WD_Elements_10B8/Uni/16-WS/Projekt Latex"'
 
 # Environment {{{1
 # ==============================================================================
@@ -56,35 +46,3 @@ if [ $(( RANDOM % 6)) -eq 0 ]; then
   fortune -n 140
   echo -e "\033[0m"
 fi
-
-# ROS {{{1
-# ==============================================================================
-indigo() {
-  source /opt/ros/indigo/setup.bash
-  export ROS_PACKAGE_PATH=/home/maggeych/Code/ros:$ROS_PACKAGE_PATH
-  export PYTHONPATH=/opt/ros/indigo/lib/python2.7/site-packages:$PYTHONPATH
-  export PKG_CONFIG_PATH="/opt/ros/indigo/lib/pkgconfig:$PKG_CONFIG_PATH"
-  export ROS_HOSTNAME="localhost"
-  export ROS_MASTER_URI="http://localhost:11311"
-  alias python=/usr/bin/python2
-  alias catkin_make='catkin_make -DPYTHON_EXECUTABLE=/usr/bin/python2 -DPYTHON_INCLUDE_DIR=/usr/include/python2.7 -DPYTHON_LIBRARY=/usr/lib/libpython2.7.so'
-
-  # # Gazebo
-  # source /usr/share/gazebo/setup.sh
-}
-kuka () {
-  indigo
-  cd /home/maggeych/Uni/Hiwi/ros/
-  vim
-}
-
-
-# Smarties {{{1
-# ==============================================================================
-cameraNetwork() {
-  sudo ip link set enp0s20u2 up
-  sudo ip addr add 192.168.1.66/255.255.255.0 broadcast 192.168.1.255 dev enp0s20u2
-}
-syncCamera() {
-  rsync -a /home/maggeych/Code/smarties/root/VCpro-Z-0015/usr/local root@192.168.1.25:/usr/local
-}

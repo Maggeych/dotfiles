@@ -55,7 +55,7 @@ main = do
   dzenRightBar <- spawnPipe $ "conky -c ~/.xmonad/.conky_dzen | dzen2 -dock -ta r -w 550 -h 16 -x 2520 -bg '" ++ color_bar_bg ++ "' -fn '" ++ font_bar ++ "' -y 3"
   xmonad =<< statusBar cmd customPP toggleStrutsKey myConfig
     where
-      cmd = "dzen2 -dock -w 1418 -h 17 -x 1210 -y 2 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
+      cmd = "dzen2 -dock -w 1418 -h 17 -x 1610 -y 2 -ta l -fn '" ++ font_bar ++ "' -bg '" ++ color_bar_bg ++ "'"
 
 myConfig = defaultConfig { workspaces = workspaces'
                          , modMask = modMask'
@@ -74,6 +74,7 @@ manageHook' = composeAll [
   --, className =? "Gimp" --> unfloat
   --, className =? "Vlc"       --> doFloat
 	, className =? "Chromium" --> doShift " 2 "
+	, className =? "Firefox" --> doShift " 2 "
 	, className =? "Thunderbird" --> doShift " 6 "
 	, className =? "Thunar" --> doShift " 1 "
 	, className =? "spotify" --> doShift " 5 "
@@ -110,7 +111,7 @@ myGSConfig = defaultGSConfig { gs_cellwidth = 160 }
 workspaces' = [" 1 ", " 2 ", " 3 ", " 4 ", " 5 ", " 6 ", " 7 ", " 8 ", " 9 "]
                                                              
 layoutHook' = layoutHintsToCenter (toggleLayouts (noBorders (fullscreenFull Full)) (named "grid" grid ||| named "tall" tall ||| named "wide" wide)) where
-    grid = space $ gap $ GridRatio(3/2)
+    grid = space $ Mirror $ gap $ GridRatio(3/3)
     tall = space $ gap $ ResizableTall 1 (5/100) (1/2) []
     wide = space $ Mirror $ gap $ ResizableTall 1 (5/100) (1/2) []
     space = spacing border_gap
@@ -137,7 +138,7 @@ keys' conf@(XConfig {XMonad.modMask = modMask}) = M.fromList $
     , ((modMask,               xK_p     ), spawn "dmenu_run -b -p 'Run'") 
     , ((modMask .|. shiftMask, xK_m     ), spawn "thunderbird")
     , ((modMask .|. shiftMask, xK_c     ), kill)
-    , ((modMask, xK_o), spawn "chromium")
+    , ((modMask, xK_o), spawn "firefox")
     , ((modMask .|. shiftMask, xK_f), spawn "thunar")
     , ((modMask, xK_f), sendMessage ToggleStruts >> sendMessage ToggleLayout)
 
